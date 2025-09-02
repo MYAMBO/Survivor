@@ -22,7 +22,9 @@ function Login({ onLogin }) {
             <div className="website-logo">
                 <img src="logo.png" alt="Website Logo" className="logo-image"/>
             </div>
-            <h2>Log in</h2>
+            <div className="login-header">
+                <h2>Log In</h2>
+            </div>
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     type="email"
