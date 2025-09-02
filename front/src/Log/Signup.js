@@ -48,7 +48,8 @@ function SignUp({ onSignUp }) {
     return (
         <div className="login-container">
         <div className="back-home">
-            <Link to="/" className="home-button">Back to Home</Link>
+            <Link to="/" className="home-button-text">Back to Home</Link>
+            <Link to="/" className="home-button-img"> <img src="./home.png" alt="Home Button"/> </Link>
         </div>
         <div className="website-logo">
             <img src="logo.png" alt="Website Logo" className="logo-image"/>
