@@ -1,9 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser')
-const db = require('./src/db/firebaseSettings');
-
+const {writeUserData, readUserData, findUserData} = require('./src/data/StartupsManagment')
 const app = express();
 const port = 3000
+const crudUtils = require('./src/CRUD/CRUD')
+
+app.use(express.json());
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');
@@ -11,6 +12,24 @@ app.get('/ping', (req, res) => {
 
 app.get('/', (req, res) => {
     res.status(200).send('home');
+});
+
+app.post('/create', (req, res) => {
+    console.log(req.body);
+    const {table, username, email} = req.body;
+    void writeUserData(table, username, email);
+    res.status(200).send('create');
+});
+
+app.get('/read', (req, res) => {
+    void readUserData('users');
+    res.status(200).send('read');
+});
+
+app.get('/find', (req, res) => {
+    void findUserData('users', 'martinmatin');
+    void findUserData('users', 'yanis');
+    res.status(200).send('find');
 });
 
 app.use((req, res) => {
