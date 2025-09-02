@@ -5,6 +5,10 @@
     justify-content: center;
     height: 100vh;
     background: linear-gradient(135deg, #2f6962, #7bb3b7);
+
+    h2 {
+        color: white;
+    }
 }
 
 .login-form {
