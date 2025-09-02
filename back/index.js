@@ -5,7 +5,6 @@ const {writeUserData, readUserData, findUserData} = require('./src/data/Startups
 const app = express();
 const cookieParser = require('cookie-parser');
 const port = 3000
-const crudUtils = require('./src/CRUD/CRUD')
 
 const authRoutes = require('./src/routes/auth');
 const protectedRoutes = require('./src/routes/protected');
