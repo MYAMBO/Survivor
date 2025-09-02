@@ -1,11 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Header from '../Header/Header';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
-import Home from '../Home/Home';
 import Projects from '../Projects/Projects';
 import Calendar from '../Calendar/Calendar';
+import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
+import Home from '../Home/Home';
 import './App.css';
 
 function Log() {
@@ -16,10 +16,17 @@ function SignUpLog() {
   return (<SignUp/>)
 }
 
+function HeaderWrapper() {
+  const location = useLocation();
+  const hideHeaderPaths = ['/login', '/signup'];
+
+  return hideHeaderPaths.includes(location.pathname) ? null : <Header />;
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Header/>
+      <HeaderWrapper/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Log/>}/>
