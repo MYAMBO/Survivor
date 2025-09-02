@@ -1,3 +1,10 @@
+const PERMISSIONS = {
+    CREATE: 1,
+    READ:   2,
+    UPDATE: 4,
+    DELETE: 8
+};
+
 exports.CreateOnly = function(){
     return 1;
 }
@@ -26,6 +33,18 @@ exports.CDrights = function() {
     return 9;
 }
 
+exports.RUrights = function () {
+    return 6;
+}
+
+exports.UDrights = function () {
+    return 12;
+}
+
+exports.CRDrights = function () {
+    return 10;
+}
+
 exports.CRUrights = function() {
     return 7;
 }
@@ -38,24 +57,28 @@ exports.CUDrights = function() {
     return 13;
 }
 
+exports.RUDrights = function () {
+    return 14;
+}
+
 exports.CRUDrights = function() {
     return 15;
 }
 
 exports.ContainCreate = function(val) {
-    return val === 7 || val === 5 || val === 3 || val === 1;
-}
+    return (val & PERMISSIONS.CREATE) !== 0;
+};
 
 exports.ContainRead = function(val) {
-    return val === 7 || val === 6 || val === 2;
-}
+    return (val & PERMISSIONS.READ) !== 0;
+};
 
 exports.ContainUpdate = function(val) {
-    return val === 7 || val === 4;
-}
+    return (val & PERMISSIONS.UPDATE) !== 0;
+};
 
 exports.ContainDelete = function(val) {
-    return val === 8;
-}
+    return (val & PERMISSIONS.DELETE) !== 0;
+};
 
 module.exports = exports

@@ -1,4 +1,5 @@
 const db = require("../db/firebaseSettings");
+const crudUtils = require("../CRUD/CRUD");
 
 async function writeUserData(tableName, name, email) {
     if (tableName == null || name == null || email == null){
@@ -27,6 +28,7 @@ async function writeUserData(tableName, name, email) {
     db.ref(tableName + '/' + id).set({
         username: name,
         email: email,
+        CRUD:crudUtils.RUrights()
     })
 }
 
