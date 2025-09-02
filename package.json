@@ -1,0 +1,29 @@
+{
+  "name": "survivor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MYAMBO/Survivor.git"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "body-parser": "^2.2.0",
+    "firebase-admin": "^13.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MYAMBO/Survivor/issues"
+  },
+  "homepage": "https://github.com/MYAMBO/Survivor#readme"
+}
