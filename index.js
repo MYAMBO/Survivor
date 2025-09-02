@@ -1,10 +1,20 @@
+require('dotenv').config();
+
 const express = require('express');
 const {writeUserData, readUserData, findUserData} = require('./src/data/StartupsManagment')
 const app = express();
+const cookieParser = require('cookie-parser');
 const port = 3000
 const crudUtils = require('./src/CRUD/CRUD')
 
+const authRoutes = require('./src/routes/auth');
+const protectedRoutes = require('./src/routes/protected');
+
+app.use(cookieParser());
 app.use(express.json());
+
+app.use('/', authRoutes);
+app.use('/', protectedRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');
