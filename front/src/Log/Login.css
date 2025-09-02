@@ -54,3 +54,23 @@
     height: auto;
     margin-bottom: 20px;
 }
+
+.back-home button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 12px;
+    background: linear-gradient(135deg, #1f5952, #4b8387);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.back-home button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg,  #2f6962, #abb3b7);
+}

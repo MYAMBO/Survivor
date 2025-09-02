@@ -14,6 +14,9 @@ function Login({ onLogin }) {
 
     return (
         <div className="login-container">
+            <div className="back-home">
+                <button href="/"> Back to Home </button>
+            </div>
             <div className="website-logo">
                 <img src="logo.png" alt="Website Logo" className="logo-image"/>
             </div>
