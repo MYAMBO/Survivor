@@ -1,18 +1,9 @@
-import './App.css';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from '../Header/Header';
-
-function Home() {
-  return (<div>home</div>)
-}
-
-function Project() {
-  return (<div>project</div>)
-}
-
-function Contact() {
-  return (<div>contact</div>)
-}
+import Home from '../Home/Home';
+import Projects from '../Projects/Projects';
+import Calendar from '../Calendar/Calendar';
+import './App.css';
 
 function App() {
   return (
@@ -20,8 +11,8 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/project' element={<Project/>}/>
-        <Route path='/contact' element={<Contact/>}/>
+        <Route path='/projects' element={<Projects/>}/>
+        <Route path='/calendar' element={<Calendar/>}/>
       </Routes>
     </BrowserRouter>
   );

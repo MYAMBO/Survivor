@@ -1,0 +1,7 @@
+nav {
+  display: flex;
+  justify-content: space-around; /* horizontal */
+  align-items: center;     /* vertical */
+  height: 10%;
+  background-color: darkgreen;
+}
