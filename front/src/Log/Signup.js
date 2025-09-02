@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
 
@@ -23,7 +24,7 @@ function SignUp({ onSignUp }) {
     return (
         <div className="login-container">
             <div className="back-home">
-                <button href="/">Back to Home</button>
+                <Link to="/" className="home-button"> Back to Home </Link>
             </div>
             <div className="website-logo">
                 <img src="logo.png" alt="Website Logo" className="logo-image"/>

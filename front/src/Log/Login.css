@@ -55,7 +55,7 @@
     margin-bottom: 20px;
 }
 
-.back-home button {
+.back-home .home-button {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -68,9 +68,10 @@
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;
+    text-decoration: none;
 }
 
-.back-home button:hover {
+.back-home .home-button:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg,  #2f6962, #abb3b7);
 }
