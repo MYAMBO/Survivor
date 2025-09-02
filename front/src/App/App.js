@@ -24,8 +24,8 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Log/>}/>
         <Route path='/signup' element={<SignUpLog/>}/>
-        <Route path='/projects' element={<Project/>}/>
-        <Route path='/contacts' element={<Contact/>}/>
+        <Route path='/projects' element={<Projects/>}/>
+        <Route path='/Calendar' element={<Calendar/>}/>
       </Routes>
     </BrowserRouter>
   );
