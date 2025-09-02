@@ -15,7 +15,7 @@
     border-radius: 16px;
     background: white;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    width: 300px;
+    width: 250px;
 }
 
 .login-form input {
@@ -55,13 +55,14 @@
     margin-bottom: 20px;
 }
 
-.back-home .home-button {
+.back-home > * {
     position: absolute;
     top: 20px;
     right: 20px;
     padding: 12px;
-    background: linear-gradient(135deg, #1f5952, #4b8387);
-    color: white;
+    background: white;
+    color: black;
+    font: menu;
     font-size: 1.1rem;
     font-weight: bold;
     border: none;
@@ -71,7 +72,26 @@
     text-decoration: none;
 }
 
-.back-home .home-button:hover {
+.back-home .home-button-img {
+    padding-bottom: 7px;
+    visibility: hidden;
+}
+
+@media (max-width:501px) {
+    .back-home .home-button-img {
+        visibility: visible;
+    }
+    .back-home .home-button-text {
+        visibility: hidden !important;
+    }
+}
+
+.back-home .home-button-text:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg,  #2f6962, #abb3b7);
+}
+
+.back-home .home-button-img:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg,  #2f6962, #abb3b7);
 }
