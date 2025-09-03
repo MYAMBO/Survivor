@@ -54,6 +54,32 @@ function SignUp({ onSignUp }) {
     return (
         <div className="login-container">
             <div className="back-home">
+                <Link to="/" className="home-button-text">Back to Home</Link>
+                <Link to="/" className="home-button-img"> <img src="./home.png" alt="Home Button"/> </Link>
+            </div>
+                <img src="logo.png" alt="Website Logo" className="logo-image"/>
+            <h2>Sign Up</h2>
+            <div className="login-form-section">
+                <form onSubmit={handleSubmit} className="login-form sign-up-form">
+                    {fields.map(({ name, type, placeholder }) => (
+                        <input
+                            key={name}
+                            name={name}
+                            type={type}
+                            placeholder={placeholder}
+                            value={formData[name]}
+                            onChange={handleChange}
+                            required
+                        />
+                    ))}
+                </form>
+                <button className="login-form-button">Create Account</button>
+            </div>
+            <p className="signup-link">
+                Already have an account? <Link to="/login">Log in</Link>
+            </p>
+        </div>
+
                 <Link to="/" className="home-button">Back to Home</Link>
             </div>
             <div className="website-logo">

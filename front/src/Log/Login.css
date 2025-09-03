@@ -3,11 +3,28 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     background: linear-gradient(35deg, var(--color-magenta), var(--color-red));
+    font: menu;
+    font-weight: bold;
+
+    h2 {
+        font-size: 50px !important;
+        color: white;
+        font-size:x-large
+    }
 }
 
-/* Styles for Sign up for StartUp */
+.login-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 300px;
+}
 
 .signup-form {
     display: flex;
@@ -52,18 +69,11 @@
     background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
 }
 
-
-/* Styles for Log In */
-
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding: 30px;
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    width: 300px;
+    width: 100%;
 }
 
 .login-form input {
@@ -80,7 +90,7 @@
     box-shadow: 0 0 6px rgba(106, 90, 205, 0.5);
 }
 
-.login-form button {
+.login-form-button {
     padding: 12px;
     background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
     color: white;
@@ -93,7 +103,7 @@
     transition: 0.2s;
 }
 
-.login-form button:hover {
+.login-form-button:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
 }
@@ -150,14 +160,18 @@
 }
   
 
+.sign-up-form {
+    overflow-y: auto;
+    height: 200px;
+}
+
 .logo-image {
     border-radius: 16px;
     width: 150px;
     height: auto;
-    margin-bottom: 20px;
 }
 
-.back-home .home-button {
+.back-home > * {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -174,7 +188,29 @@
     text-decoration: none;
 }
 
-.back-home .home-button:hover {
+.back-home .home-button-img {
+    padding-bottom: 7px;
+    visibility: hidden;
+}
+
+@media (max-width:501px) {
+    .login-form-section {
+        width: 200px;
+    }
+    .back-home .home-button-img {
+        visibility: visible;
+    }
+    .back-home .home-button-text {
+        visibility: hidden !important;
+    }
+}
+
+.back-home .home-button-text:hover {
+    transform: scale(1.05);
+    background-color: black;
+    color: white;
+
+  .back-home .home-button:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple-light));
 }
@@ -191,3 +227,8 @@
     font-weight: bold;
 }
 
+.back-home .home-button-img:hover {
+    transform: scale(1.05);
+    background-color: black;
+    color: white;
+}
