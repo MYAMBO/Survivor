@@ -209,8 +209,9 @@
     transform: scale(1.05);
     background-color: black;
     color: white;
+}
 
-  .back-home .home-button:hover {
+.back-home .home-button:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple-light));
 }
