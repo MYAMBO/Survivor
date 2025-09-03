@@ -1,5 +1,4 @@
 const express = require('express');
-const authenticateToken = require('../middleware/authMiddleware');
 const router = express.Router();
 const createStartup = require("../data/startupsManagement");
 
