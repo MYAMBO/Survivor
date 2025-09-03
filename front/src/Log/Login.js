@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import bcrypt from 'bcryptjs';
 import "./Login.css";
+import "../Base.css";
 
 function Login({ onLogin }) {
     const [email, setEmail] = useState("");
@@ -8,9 +10,26 @@ function Login({ onLogin }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (onLogin) {
-            onLogin({ email, password });
-        }
+
+        const hashedPassword = bcrypt.hashSync(password, 10);  
+        fetch("http://10.17.72.24:3000/login", {
+            method: "POST",
+            headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password: hashedPassword
+            }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Inscription réussie :", data);
+        })
+        .catch(err => {
+            console.error("Erreur :", err);
+        });
     };
 
     return (
