@@ -1,5 +1,6 @@
 const db = require("../db/firebaseSettings");
 const crudUtils = require("../CRUD/CRUD");
+const { use } = require("react");
 
 async function writeUserData(tableName, name, email) {
     if (tableName == null || name == null || email == null){
