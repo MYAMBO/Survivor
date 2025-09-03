@@ -23,7 +23,7 @@ function SignUp({ onSignUp }) {
         }
 
         const hashedPassword = bcrypt.hashSync(formData.password, 10);  
-        fetch("http://10.17.72.24:3000/register", {
+        fetch("http://10.17.71.123:3000/createUser", {
             method: "POST",
             headers: {
             "Accept": "application/json",
@@ -74,12 +74,12 @@ function SignUp({ onSignUp }) {
                 className={isFunder ? "active" : ""}
                 onClick={() => setIsFunder(true)}
             >
-                Funder
+                Founder
             </button>
         </div>
 
         {isFunder ? (
-        formData.role = "Funder",
+        formData.role = "founder",
         <form onSubmit={handleSubmit} className="signup-form">
             {user_fields.map(({ name, type, placeholder }) => (
             <input
@@ -95,7 +95,7 @@ function SignUp({ onSignUp }) {
             <button type="submit">Create User Account</button>
         </form>
         ) : (
-        formData.role = "Investor",
+        formData.role = "investor",
         <form onSubmit={handleSubmit} className="signup-form">
             {user_fields.map(({ name, type, placeholder }) => (
             <input

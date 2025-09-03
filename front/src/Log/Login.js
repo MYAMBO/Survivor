@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import bcrypt from 'bcryptjs';
 import "./Login.css";
-import "../Colors.css";
+import "../Base.css";
 
 function Login({ onLogin }) {
     const [email, setEmail] = useState("");
