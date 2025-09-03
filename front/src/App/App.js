@@ -32,7 +32,7 @@ function App() {
         <Route path='/calendar' element={<Calendar/>}/>
         <Route path='/messaging' element={<Messaging/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/oppotunities' element={<Opportunities/>}/>
+        <Route path='/opportunities' element={<Opportunities/>}/>
       </Routes>
     </BrowserRouter>
   );
