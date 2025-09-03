@@ -12,3 +12,11 @@
     --font-headings: "Montserrat", sans-serif;
     --font-body: "Open Sans", sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headings) !important;
+}
+
+p, span, a, li, button {
+    font-family: var(--font-body) !important;
+}

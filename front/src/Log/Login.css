@@ -181,13 +181,11 @@
 
 
 .login-container h2 {
-    font: var(--font-headings);
     font-weight: bold;
     font-size:x-large
 }
 
 .login-container p {
-    font: var(--font-body);
     font-weight: bold;
 }
 

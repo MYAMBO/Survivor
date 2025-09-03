@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
-import Projects from '../Projects/Projects';
+import Catalogue from '../Catalogue/Catalogue';
 import Calendar from '../Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
@@ -31,7 +31,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Log/>}/>
         <Route path='/signup' element={<SignUpLog/>}/>
-        <Route path='/projects' element={<Projects/>}/>
+        <Route path='/catalogue' element={<Catalogue/>}/>
         <Route path='/Calendar' element={<Calendar/>}/>
       </Routes>
     </BrowserRouter>
@@ -39,3 +39,5 @@ function App() {
 }
 
 export default App;
+
+
