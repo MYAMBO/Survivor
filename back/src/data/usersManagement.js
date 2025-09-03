@@ -1,5 +1,5 @@
 const db = require("../db/firebaseSettings");
-const createInvestor = require("./investorsManagement");
+const {createInvestor} = require("./investorsManagement");
 const createFounder = require("./foundersManagement");
 
 async function createUser(email, name, role, password) {
