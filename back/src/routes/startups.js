@@ -3,13 +3,13 @@ const authenticateToken = require('../middleware/authMiddleware');
 const router = express.Router();
 const createStartup = require("../data/startupsManagement");
 
-router.post('/create',  authenticateToken, async (req, res) => {
-    const {name, legal_status, address, email, phone, sector, maturity} = req.body;
-    const returnVal = await createStartup(name, legal_status, address, email, phone, sector, maturity);
+router.post('/createStartup', async (req, res) => {
+    const {name, legal_status, address, email, phone, sector, maturity, password} = req.body;
+    const returnVal = await createStartup(name, legal_status, address, email, phone, sector, maturity, password);
     if (returnVal !== 0)
-        res.status(400).send('Error')
+        res.status(400).send('{"message":"An error occurs."}');
     else
-        res.status(200).send('OK');
+        res.status(200).send('{"message":"OK"}');
 });
 
 module.exports = router;

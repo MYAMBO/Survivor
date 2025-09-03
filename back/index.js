@@ -4,11 +4,13 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const port = 3000
+const cors = require('cors');
 
 const authRoutes = require('./src/routes/auth');
 const protectedRoutes = require('./src/routes/protected');
 const startupsRoutes = require('./src/routes/startups');
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
