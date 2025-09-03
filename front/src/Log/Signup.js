@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
+import bcrypt from 'bcryptjs';
 
 function SignUp({ onSignUp }) {
     const [formData, setFormData] = useState({
         name: "",
-        legalStatus: "",
-        adress: "",
+        legal_status: "",
+        address: "",
         email: "",
-        phoneNumber: "",
+        phone: "",
         sector: "",
         maturity: "",
         password: "",
@@ -22,23 +23,40 @@ function SignUp({ onSignUp }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+      
         if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
-            return;
+          alert("Passwords do not match");
+          return;
         }
-
-        if (onSignUp) {
-            onSignUp(formData)
-        }
+    
+        const hashedPassword = bcrypt.hashSync(formData.password, 10);  
+        fetch("http://10.17.71.123:3000/createStartup", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            ...formData,
+            password: hashedPassword
+          }),
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Inscription réussie :", data);
+        })
+        .catch(err => {
+          console.error("Erreur :", err);
+        });
     };
+      
 
     const fields = [
         { name: "name", type: "text", placeholder: "Name" },
-        { name: "legalStatus", type: "text", placeholder: "Legal Status" },
-        { name: "adress", type: "text", placeholder: "Address" },
+        { name: "legal_status", type: "text", placeholder: "Legal Status" },
+        { name: "address", type: "text", placeholder: "Address" },
         { name: "email", type: "email", placeholder: "Email Address" },
-        { name: "phoneNumber", type: "tel", placeholder: "Phone Number" },
+        { name: "phone", type: "tel", placeholder: "Phone Number" },
         { name: "sector", type: "text", placeholder: "Sector" },
         { name: "maturity", type: "text", placeholder: "Maturity" },
         { name: "password", type: "password", placeholder: "Password" },
