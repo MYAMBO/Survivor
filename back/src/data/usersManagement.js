@@ -41,4 +41,24 @@ async function createUser(email, name, role, password) {
     return 0;
 }
 
-module.exports = createUser
+async function GetUserDataById(tableName, id) {
+    const snapshot = await db.ref(tableName).once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const users = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(users, null, 0)
+        const myObj = JSON.parse(myStr)
+        for (const user of myObj){
+            if (user.id === id){
+                return user;
+            }
+        }
+    } else {
+        console.log("Not found")
+    }
+}
+
+module.exports = {createUser, GetUserDataById}

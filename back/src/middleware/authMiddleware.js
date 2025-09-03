@@ -11,7 +11,7 @@ function authenticateToken(req, res, next) {
         if (err)
             return res.sendStatus(403);
 
-        if (activeTokens[user.username] !== token)
+        if (activeTokens[user.id] !== token)
             return res.status(403).json({ message: "Session invalid or logged in elsewhere" });
 
         req.user = user;
