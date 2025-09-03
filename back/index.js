@@ -6,16 +6,18 @@ const cookieParser = require('cookie-parser');
 const port = 3000
 const cors = require('cors');
 
-const authRoutes = require('./src/routes/auth');
-const protectedRoutes = require('./src/routes/protected');
+const homeRoutes = require('./src/routes/home');
+const loginRoutes = require('./src/routes/login');
+const logoutRoutes = require('./src/routes/logout');
 const startupsRoutes = require('./src/routes/startups');
 
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/', authRoutes);
-app.use('/', protectedRoutes);
+app.use('/', homeRoutes);
+app.use('/', loginRoutes);
+app.use('/', logoutRoutes);
 app.use('/', startupsRoutes);
 
 app.get('/ping', (req, res) => {
