@@ -1,7 +1,11 @@
 .catalogue-container {
-  padding: 20px;
+  padding: 70px 20px 20px 20px;
   background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
   min-height: 100vh;
+}
+
+.catalogue-container h2 {
+  padding: 0;
 }
 
 .ag-format-container {
@@ -16,7 +20,13 @@
   padding: 50px 0;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 700px) and (max-width: 1000px) {
+  .ag-courses_box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
   .ag-courses_box {
     grid-template-columns: 1fr;
   }
