@@ -13,6 +13,17 @@
         color: white;
         font-size:x-large
     }
+
+    transition: background 0.6s ease;
+}
+
+.login-container.investor-bg {
+    background: linear-gradient(75deg, var(--color-purple), var(--color-pink));
+    transition: smooth;
+}
+
+.login-container.founder-bg {
+    background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
 }
 
 .login-form-section {
@@ -105,7 +116,6 @@
 
 .login-form-button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
 }
 
 /* Toggle Button Styles */
@@ -138,6 +148,9 @@
   
 .toggle-container button.active {
     color: white;
+    .login-container {
+        background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
+    }
 }
   
 .slider {
