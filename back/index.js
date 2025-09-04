@@ -10,7 +10,7 @@ const cors = require('cors');
 const schedule = require('node-schedule');
 const callMigration = require('./src/data/apiMigration')
 
-const homeRoutes = require('./src/routes/home');
+const profileRoutes = require('./src/routes/profile');
 const loginRoutes = require('./src/routes/login');
 const logoutRoutes = require('./src/routes/logout');
 const startupsRoutes = require('./src/routes/startups');
@@ -41,7 +41,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/', homeRoutes);
+app.use('/', profileRoutes);
 app.use('/', loginRoutes);
 app.use('/', logoutRoutes);
 app.use('/', startupsRoutes);
