@@ -1,15 +1,18 @@
 .home-wrapper {
     display: flex;
     flex-direction: column;
-    padding-top: 70px;
+    background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
+    z-index: -2;
+    padding-top: 5%;
 }
 
 .presentation {
-  background: url('https://via.placeholder.com/1600x900') center/cover no-repeat;
+  background: url(https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1350&q=80) center/cover no-repeat;
   height: 50vh;
   position: relative;
   display: flex;
   align-items: center;
+  z-index: 1;
   justify-content: center;
 }
 
@@ -39,56 +42,91 @@
 }
 
 .projects {
-  padding: 60px 20px;
-  background: #f9f9f9;
+  background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
   text-align: center;
+  padding: 50px 20px;
+  padding-bottom: 5%;
 }
 
 .projects h2 {
+  padding: 0px;
   font-size: 2rem;
   margin-bottom: 40px;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
   gap: 20px;
 }
 
 .card {
-  background: #fff;
-  border-radius: 10px;
+  background: white;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
 }
 
-.card img {
-  width: 100%;
-  height: auto;
+.card-link {
   display: block;
+  padding: 30px 20px;
+  background-color: white;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  border-radius: 20px;
 }
 
 .card h3 {
+  padding-top: 10px;
+  font-weight: bold;
   font-size: 1.5rem;
-  margin: 15px 0 10px;
+  margin-bottom: 20px;
+  color: #000;
+  position: relative;
+  z-index: 2;
 }
 
 .card p {
-  padding: 0 15px 20px;
   font-size: 1rem;
-  color: #666;
+  color: #000;
+  position: relative;
+  z-index: 2;
 }
 
-@media (max-width: 768px) {
-  .presentation h2 {
-    font-size: 2rem;
-  }
-  .presentation p {
-    font-size: 1rem;
-  }
+.card-bg {
+  height: 120px;
+  width: 120px;
+  background-color: var(--color-red);
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  border-radius: 50%;
+  transition: transform 0.5s ease;
+  z-index: 1;
+}
+
+.card-link:hover .card-bg {
+  transform: scale(15);
+}
+
+.card:nth-child(2n) .card-bg {
+  background-color: var(--color-purple);
+}
+.card:nth-child(3n) .card-bg {
+  background-color: var(--color-magenta-gray);
+}
+.card:nth-child(4n) .card-bg {
+  background-color: var(--color-magenta);
+}
+.card:nth-child(5n) .card-bg {
+  background-color: var(--color-magenta-purple);
+}
+.card:nth-child(6n) .card-bg {
+  background-color: var(--color-purple-light);
 }
