@@ -2,16 +2,16 @@ import './Home.css'
 
 function PresentationSection () {
   return (
-    <section id="presentation" class="presentation">
-    <div className="overlay">
-      <div className="content">
-        <h2>Welcome to My Portfolio</h2>
-        <p>
-          I'm a web developer passionate about creating clean, modern, and responsive websites.
-        </p>
+    <section class="presentation">
+      <div className="overlay">
+        <div className="content">
+          <h2>JEB INCUBATOR</h2>
+          <p>
+            Uniting breakthrough ideas with global capital. We fast-track early-stage startups by providing funding, expertise, and an unparalleled international network.
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   )
 }
 
@@ -27,7 +27,7 @@ function Project ({name, description, image}) {
 
 function FeaturedProjectSection () {
   return (
-    <section id="projects" className="projects">
+    <section className="projects">
     <h2>Featured Projects</h2>
     <div className="cards">
       <Project 
