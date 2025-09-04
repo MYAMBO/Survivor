@@ -23,22 +23,59 @@ const startups = [
     sector: "FoodTech",
     maturity: "Early Stage",
     email: "hello@foodify.com"
+  },
+  {
+    id: 4,
+    name: "MediLink",
+    sector: "HealthTech",
+    maturity: "Series B",
+    email: "contact@medilink.com"
+  },
+  {
+    id: 5,
+    name: "AgroNext",
+    sector: "AgriTech",
+    maturity: "Seed",
+    email: "team@agronext.com"
+  },
+  {
+    id: 6,
+    name: "SkyChain",
+    sector: "Blockchain",
+    maturity: "Series A",
+    email: "info@skychain.com"
   }
 ];
 
 function Catalogue() {
   return (
     <div className="catalogue-container">
-      <h2>Startup Catalogue</h2>
-      <div className="startup-grid">
-        {startups.map((startup) => (
-          <div key={startup.id} className="startup-card">
-            <h3>{startup.name}</h3>
-            <p><strong>Sector:</strong> {startup.sector}</p>
-            <p><strong>Maturity:</strong> {startup.maturity}</p>
-            <p><strong>Email:</strong> {startup.email}</p>
-          </div>
-        ))}
+      <h2>Startup Catalog</h2>
+
+      <div className="ag-format-container">
+        <div className="ag-courses_box">
+          {startups.map((startup, index) => (
+            <div key={startup.id} className="ag-courses_item">
+              <a href="#" className="ag-courses-item_link">
+                <div className="ag-courses-item_bg"></div>
+
+                <div className="ag-courses-item_title">{startup.name}</div>
+
+                <div className="ag-courses-item_date-box">
+                  <p>
+                    <strong>Sector:</strong> {startup.sector}
+                  </p>
+                  <p>
+                    <strong>Maturity:</strong> {startup.maturity}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {startup.email}
+                  </p>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
