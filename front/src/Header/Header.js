@@ -16,8 +16,8 @@ function Header() {
       </button>
 
       <div className={`navigation-wrapper ${isMenuOpen ? "active" : ""}`}>
-        <Link to="/catalogue">Catalogue</Link>
         <Link to="/">Home</Link>
+        <Link to="/catalog">Catalog</Link>
         <Link to="/calendar">Calendar</Link>
         <Link to="/opportunities">Opportunities</Link>
         <Link to="/messaging">Messaging</Link>
