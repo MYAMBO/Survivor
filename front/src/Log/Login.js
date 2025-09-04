@@ -35,31 +35,34 @@ function Login({ onLogin }) {
     return (
         <div className="login-container">
             <div className="back-home">
-                <Link to="/" className="home-button"> Back to Home </Link>
+                <Link to="/" className="home-button-text"> Back to Home </Link>
+                <Link to="/" className="home-button-img"> <img src="./home.png" alt="Home Button"/> </Link>
             </div>
-            <div className="website-logo">
+            <div>
                 <img src="logo.png" alt="Website Logo" className="logo-image"/>
             </div>
             <div className="login-header">
                 <h2>Log In</h2>
             </div>
-            <form onSubmit={handleSubmit} className="login-form">
-                <input
-                    type="email"
-                    placeholder="Email Adress"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Submit</button>
-            </form>
+            <div className="login-form-section">
+                <form onSubmit={handleSubmit} className="login-form">
+                    <input
+                        type="email"
+                        placeholder="Email Adress"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </form>
+                <button className="login-form-button">Submit</button>
+            </div>
             <p className="signup-link">
                 Don't have an account? <a href="/signup">Sign up</a>
             </p>

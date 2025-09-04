@@ -54,68 +54,66 @@ function SignUp({ onSignUp }) {
     return (
         <div className="login-container">
             <div className="back-home">
-                <Link to="/" className="home-button">Back to Home</Link>
+                <Link to="/" className="home-button-text">Back to Home</Link>
+                <Link to="/" className="home-button-img"> <img src="./home.png" alt="Home Button"/> </Link>
             </div>
-            <div className="website-logo">
-                <img src="logo.png" alt="Website Logo" className="logo-image"/>
+            <img src="logo.png" alt="Website Logo" className="logo-image"/>
+            <h2>Sign Up</h2>
+            <div className="toggle-container">
+                <div className={`slider ${isFunder ? "right" : "left"}`}>
+                </div>
+                <button
+                    type="button"
+                    className={!isFunder ? "active" : ""}
+                    onClick={() => setIsFunder(false)}
+                >
+                    Investor
+                </button>
+                <button
+                    type="button"
+                    className={isFunder ? "active" : ""}
+                    onClick={() => setIsFunder(true)}
+                >
+                    Founder
+                </button>
             </div>
-        <h2>Sign Up</h2>
-        <div className="toggle-container">
-        <div className={`slider ${isFunder ? "right" : "left"}`}></div>
-            <button
-                type="button"
-                className={!isFunder ? "active" : ""}
-                onClick={() => setIsFunder(false)}
-            >
-                Investor
-            </button>
-            <button
-                type="button"
-                className={isFunder ? "active" : ""}
-                onClick={() => setIsFunder(true)}
-            >
-                Founder
-            </button>
+            {isFunder ? (formData.role = "founder",
+                <form onSubmit={handleSubmit} className="signup-form">
+                    {user_fields.map(({ name, type, placeholder }) => (
+                        <input
+                            key={name}
+                            name={name}
+                            type={type}
+                            placeholder={placeholder}
+                            value={formData[name]}
+                            onChange={handleChangeUser}
+                            required
+                        />
+                    ))}
+                    <button type="submit">Create User Account</button>
+                </form>
+            ) : (
+                formData.role = "investor",
+                <form onSubmit={handleSubmit} className="signup-form">
+                    {user_fields.map(({ name, type, placeholder }) => (
+                        <input
+                            key={name}
+                            name={name}
+                            type={type}
+                            placeholder={placeholder}
+                            value={formData[name]}
+                            onChange={handleChangeUser}
+                            required
+                        />
+                    ))}
+                    <button type="submit">Create User Account</button>
+                </form>
+            )}
+            <p className="signup-link">
+                Already have an account? <Link to="/login">Log in</Link>
+            </p>
         </div>
-
-        {isFunder ? (
-        formData.role = "founder",
-        <form onSubmit={handleSubmit} className="signup-form">
-            {user_fields.map(({ name, type, placeholder }) => (
-            <input
-                key={name}
-                name={name}
-                type={type}
-                placeholder={placeholder}
-                value={formData[name]}
-                onChange={handleChangeUser}
-                required
-            />
-            ))}
-            <button type="submit">Create User Account</button>
-        </form>
-        ) : (
-        formData.role = "investor",
-        <form onSubmit={handleSubmit} className="signup-form">
-            {user_fields.map(({ name, type, placeholder }) => (
-            <input
-                key={name}
-                name={name}
-                type={type}
-                placeholder={placeholder}
-                value={formData[name]}
-                onChange={handleChangeUser}
-                required
-            />
-            ))}
-            <button type="submit">Create User Account</button>
-        </form>
-        )}
-        <p className="signup-link">
-            Already have an account? <Link to="/login">Log in</Link>
-        </p>
-    </div>
-  );
+    );
 }
 
 export default SignUp;

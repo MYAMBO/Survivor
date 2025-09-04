@@ -9,8 +9,8 @@
     --color-purple-light: #CB90F1;
     --color-purple: #C174F2;
 
-    --font-headings: "Montserrat", sans-serif;
-    --font-body: "Open Sans", sans-serif;
+    --font-headings: "Montserrat";
+    --font-body: "Open Sans";
 }
 
 h1, h2, h3, h4, h5, h6 {
