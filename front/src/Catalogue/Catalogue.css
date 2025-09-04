@@ -16,6 +16,12 @@
   padding: 50px 0;
 }
 
+@media (max-width: 600px) {
+  .ag-courses_box {
+    grid-template-columns: 1fr;
+  }
+}
+
 .ag-courses_item {
   background: white;
   border-radius: 20px;
@@ -26,6 +32,7 @@
 
 .ag-courses_item:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .ag-courses-item_link {
@@ -36,6 +43,12 @@
   color: inherit;
   position: relative;
   border-radius: 20px;
+  img {
+    position: relative;
+    z-index: 10;
+    padding-bottom: 5px;
+  }
+  height: 85%
 }
 
 .ag-courses-item_title {
@@ -68,11 +81,11 @@
   right: -70px;
   border-radius: 50%;
   transition: transform 0.5s ease;
-  z-index: 1;
+  z-index: 0;
 }
 
 .ag-courses-item_link:hover .ag-courses-item_bg {
-  transform: scale(10);
+  transform: scale(15);
 }
 
 .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
@@ -97,4 +110,39 @@ h2 {
   font-size: xx-large !important;
   color: white;
   margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  max-width: auto;
+}
+
+.filters select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.filters select:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.filters select:focus {
+  border: 2px solid var(--color-magenta);
 }
