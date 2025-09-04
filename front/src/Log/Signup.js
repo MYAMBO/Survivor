@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 
 function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
+    const [isLogin, setIsLogin] = useState(true);
 
     const [formData, setFormData] = useState({
         name : "",
@@ -52,7 +53,7 @@ function SignUp({ onSignUp }) {
     ];
 
     return (
-        <div className="login-container">
+        <div className={`login-container ${isFunder ? "founder-bg" : "investor-bg"}`}>
             <div className="back-home">
                 <Link to="/" className="home-button-text">Back to Home</Link>
                 <Link to="/" className="home-button-img"> <img src="./home.png" alt="Home Button"/> </Link>

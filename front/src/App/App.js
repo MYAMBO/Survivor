@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
+import Catalogue from '../Catalogue/Catalogue';
 import Messaging from '../Startup Area/Messaging/Messaging'
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
 import Dashboard from '../Startup Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
-import Projects from '../Projects/Projects';
 import Calendar from '../Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
@@ -26,9 +26,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/catalog' element={<Catalogue/>}/>
+        <Route path='/Calendar' element={<Calendar/>}/>
+        <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/signup' element={<SignUp/>}/>
-        <Route path='/projects' element={<Projects/>}/>
         <Route path='/calendar' element={<Calendar/>}/>
         <Route path='/messaging' element={<Messaging/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
@@ -39,3 +42,5 @@ function App() {
 }
 
 export default App;
+
+

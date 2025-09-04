@@ -24,7 +24,7 @@ function Header() {
 
       <div className={`navigation-wrapper ${isMenuOpen ? "active" : ""}`}>
         <Link to="/" onClick={closeAllMenus}>Home</Link>
-        <Link to="/projects" onClick={closeAllMenus}>Projects</Link>
+        <Link to="/catalog" onClick={closeAllMenus}>Catalog</Link>
         <Link to="/calendar" onClick={closeAllMenus}>Calendar</Link>
         <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
         <Link to="/messaging" onClick={closeAllMenus}>Messaging</Link>
