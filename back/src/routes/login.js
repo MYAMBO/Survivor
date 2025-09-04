@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { users, activeTokens } = require('../utils/users');
+const { activeTokens } = require('../utils/users');
 const { findUserDataByNameOrEmail } = require('../data/loginManagement');
 
 const router = express.Router();
