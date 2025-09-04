@@ -6,34 +6,42 @@ function Header() {
   const [isMenuOpen, setMenuIsOpen] = useState(false);
   const [isLoginOpen, setLoginIsOpen] = useState(false);
 
+  const toggleMenu = () => setMenuIsOpen(prev => !prev);
+  const toggleLogin = () => setLoginIsOpen(prev => !prev);
+  const closeAllMenus = () => {
+    setMenuIsOpen(false);
+    setLoginIsOpen(false);
+  };
+
   return (
     <nav>
       <button
         className="navigation-menu-button"
-        onClick={() => setMenuIsOpen(!isMenuOpen)}
+        onClick={toggleMenu}
       >
         <img src="./menu.png" alt="toggle menu button" />
       </button>
 
       <div className={`navigation-wrapper ${isMenuOpen ? "active" : ""}`}>
-        <Link to="/">Home</Link>
-        <Link to="/catalog">Catalog</Link>
-        <Link to="/calendar">Calendar</Link>
-        <Link to="/opportunities">Opportunities</Link>
-        <Link to="/messaging">Messaging</Link>
-        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/" onClick={closeAllMenus}>Home</Link>
+        <Link to="/catalog" onClick={closeAllMenus}>Catalog</Link>
+        <Link to="/calendar" onClick={closeAllMenus}>Calendar</Link>
+        <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
+        <Link to="/messaging" onClick={closeAllMenus}>Messaging</Link>
+        <Link to="/dashboard" onClick={closeAllMenus}>Dashboard</Link>
       </div>
 
       <button
         className="login-menu-button"
-        onClick={() => setLoginIsOpen(!isLoginOpen)}
+        onClick={toggleLogin}
       >
         <img src="./profile.png" alt="toggle profile button" />
       </button>
 
       <div className={`login-wrapper ${isLoginOpen ? "active" : ""}`}>
-        <Link to="/login">Log In</Link>
-        <Link to="/signup">Sign Up</Link>
+        <Link to="/profile" onClick={closeAllMenus}>Profile</Link>
+        <Link to="/signup" onClick={closeAllMenus}>Sign Up</Link>
+        <Link to="/login" onClick={closeAllMenus}>Log In</Link>
       </div>
     </nav>
   );
