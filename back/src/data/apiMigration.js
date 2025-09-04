@@ -1,5 +1,5 @@
-const addUser = require('./usersManagement');
-const {createInvestor, modifyInvestor} = require("./investorsManagement");
+const {createUser} = require('./usersManagement');
+const {modifyInvestor} = require("./investorsManagement");
 
 async function callMigration(){
 
@@ -10,7 +10,7 @@ async function callMigration(){
         },
     });
     const data = await response.json();
-    await data.forEach(x => addUser(x.email, x.name, x.role, "0123456"))
+    await data.forEach(x => createUser(x.email, x.name, x.role, "0123456"))
     const responseInvestors = await fetch(process.env.INVESTORS_API_ENDPOINT, {
         method: "GET",
         headers: {

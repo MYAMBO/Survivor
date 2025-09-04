@@ -1,0 +1,22 @@
+:root {
+    --color-red: #F18585;
+    --color-red-pink: #F49C9C;
+    --color-pink: #F6AEAE;
+    --color-pink-gray: #F8CACF;
+    --color-magenta-gray: #EED5FB;
+    --color-magenta: #E4BEF8;
+    --color-magenta-purple: #D5A8F2;
+    --color-purple-light: #CB90F1;
+    --color-purple: #C174F2;
+
+    --font-headings: "Montserrat";
+    --font-body: "Open Sans";
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headings) !important;
+}
+
+p, span, a, li, button {
+    font-family: var(--font-body) !important;
+}
