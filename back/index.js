@@ -38,7 +38,10 @@ const swaggerSpec = swaggerJsdoc(options);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5000',
+    credentials: true
+}) );
 app.use(cookieParser());
 app.use(express.json());
 
