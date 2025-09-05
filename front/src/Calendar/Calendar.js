@@ -1,5 +1,9 @@
+import './Calendar.css'
+
 function Calendar() {
-  return (<div>Calendar</div>)
+  return (
+    <div className="corner-band">In Develepment</div>
+  )
 }
 
 export default Calendar;

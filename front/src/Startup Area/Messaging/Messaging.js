@@ -1,7 +1,9 @@
 import './Messaging.css'
 
 function Messaging() {
-  return (<div>messaging</div>)
+  return (
+    <div className="corner-band">In Develepment</div>
+  )
 }
 
 export default Messaging;
