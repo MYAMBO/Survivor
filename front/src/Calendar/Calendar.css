@@ -1,0 +1,7 @@
+.Calendar-wrapper {
+    padding-top: 70px;
+    background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
+    display: flex;
+    flex-direction: column;
+}
+
