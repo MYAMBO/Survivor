@@ -24,7 +24,7 @@ function SignUp({ onSignUp }) {
         }
 
         const hashedPassword = bcrypt.hashSync(formData.password, 10);  
-        fetch("http://10.17.71.123:3000/createUser", {
+        fetch("http://localhost:3000/createUser", {
             method: "POST",
             headers: {
             "Accept": "application/json",

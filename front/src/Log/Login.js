@@ -12,7 +12,7 @@ function Login({ onLogin }) {
         e.preventDefault();
 
         const hashedPassword = bcrypt.hashSync(password, 10);  
-        fetch("http://10.17.72.24:3000/login", {
+        fetch("http://localhost/:3000/login", {
             method: "POST",
             headers: {
             "Accept": "application/json",
