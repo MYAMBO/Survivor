@@ -24,16 +24,15 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // On mount, check if logged in
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/me", {
-          credentials: "include", // if you use cookies
+        const res = await fetch("http://localhost:3000/...", { /* Change end of path to get info */
+          credentials: "include",
         });
         const data = await res.json();
         if (!data.error) {
-          setUser(data); // backend should return { id, name, role }
+          setUser(data);
         }
       } catch (err) {
         console.error("Auth check failed:", err);
@@ -46,11 +45,13 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = (userData, token) => {
+    console.log("Login");
     localStorage.setItem("token", token);
     setUser(userData);
   };
 
   const logout = () => {
+    console.log("Logout");
     localStorage.removeItem("token");
     setUser(null);
   };
@@ -112,7 +113,7 @@ function App() {
               <Profile/>
             </PrivateRoute>
           }/>
-
+          
           <Route path='/dashboard' element={
             <PrivateRoute roles={["admin", "user"]}>
               <Dashboard/>
@@ -133,6 +134,8 @@ function App() {
     </AuthProvider>
   );
 }
+
+export {useAuth};
 
 export default App;
 

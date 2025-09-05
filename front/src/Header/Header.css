@@ -153,7 +153,7 @@ nav {
   }
 }
 
-@media (max-width: 1101px) {
+@media (max-width: 1200px) {
   .login-menu-button {
     display: flex;
   }

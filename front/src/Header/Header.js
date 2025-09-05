@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../App/App";
 import "./Header.css";
 
 function Header() {
   const [isMenuOpen, setMenuIsOpen] = useState(false);
   const [isLoginOpen, setLoginIsOpen] = useState(false);
+  const {logout} = useAuth();
 
   const toggleMenu = () => setMenuIsOpen(prev => !prev);
   const toggleLogin = () => setLoginIsOpen(prev => !prev);
@@ -12,6 +14,11 @@ function Header() {
     setMenuIsOpen(false);
     setLoginIsOpen(false);
   };
+
+  const logoutAction = () => {
+    closeAllMenus();
+    logout();
+  }
 
   return (
     <nav>
@@ -42,6 +49,7 @@ function Header() {
         <Link to="/profile" onClick={closeAllMenus}>Profile</Link>
         <Link to="/signup" onClick={closeAllMenus}>Sign Up</Link>
         <Link to="/login" onClick={closeAllMenus}>Log In</Link>
+        <Link to="/" onClick={logoutAction}>Log out</Link>
       </div>
     </nav>
   );
