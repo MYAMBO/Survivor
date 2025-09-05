@@ -79,7 +79,6 @@ function FeaturedProjectSection () {
   return (
     <section className="projects">
       <h2>Featured Projects</h2>
-
       <div className="ag-format-container">
         <div className="ag-courses_box">
           {projects.map((p) => (
