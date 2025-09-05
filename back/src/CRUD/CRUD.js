@@ -41,7 +41,7 @@ exports.UDrights = function () {
     return 12;
 }
 
-exports.CRDrights = function () {
+exports.RDrights = function () {
     return 10;
 }
 
