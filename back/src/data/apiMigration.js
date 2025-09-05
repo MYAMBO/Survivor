@@ -66,7 +66,18 @@ async function callMigration(){
         },
     });
     const dataNews = await responseNews.json();
-    await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category))
+    for (const x of dataNews) {
+        const responseNewsId = await fetch(process.env.NEWS_API_ENDPOINT + '/' + x.id, {
+            method: "GET",
+            headers: {
+                "X-Group-Authorization": process.env.API_KEY,
+            },
+        });
+        const dataNewsId = await responseNewsId.json();
+        x.startup_id = dataNewsId.startup_id;
+        x.description = dataNewsId.description;
+    }
+    await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.startup_id, x.description))
     const responseStartups = await fetch(process.env.STARTUPS_API_ENDPOINT, {
         method: "GET",
         headers: {
