@@ -1,7 +1,7 @@
 const db = require("../db/firebaseSettings");
 
-async function createStartup(name, legal_status, address, email, phone, sector, maturity, password) {
-    if ([name, legal_status, address, email, phone, sector, maturity, password].some(x => x == null)) {
+async function createStartup(name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, password) {
+    if ([name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, password].some(x => x == null)) {
         console.log("Error here");
         return 1;
     }
@@ -27,8 +27,15 @@ async function createStartup(name, legal_status, address, email, phone, sector, 
         address: address,
         email: email,
         phone: phone,
+        created_at: created_at,
+        description: description,
+        website_url: website_url,
+        social_media_url: social_media_url,
+        project_status: project_status,
+        needs: needs,
         sector: sector,
         maturity: maturity,
+        founders: founders,
         password: password
     });
     return 0;
