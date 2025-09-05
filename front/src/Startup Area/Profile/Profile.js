@@ -18,10 +18,16 @@ function Profile() {
       .catch(err => console.error('Erreur fetch:', err))
   }, [])
 
-  if (!profile) return <p>Chargement...</p>
+  if (!profile) return (
+    <div>
+      <div className="corner-band">In Develepment</div>
+      <p>Chargement...</p>
+    </div>
+  )
 
   return (
     <div className="profile-container">
+      <div className="corner-band">In Develepment</div>
       <header className="profile-header">
         <div className="profile-info">
           <h1>{profile.name}</h1>
