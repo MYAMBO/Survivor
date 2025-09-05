@@ -1,6 +1,6 @@
 const {createUser} = require('./usersManagement');
 const {modifyInvestor, createInvestor} = require("./investorsManagement");
-const createStartup = require("./startupsManagement")
+const {createStartup, getIdStartupByEmail} = require("./startupsManagement")
 const {createPartner} = require("./partnersManagement");
 const {createEvent} = require("./eventsManagement")
 const {createNews} = require("./newsManagement")
@@ -59,25 +59,6 @@ async function callMigration(){
     });
     const dataEvents = await responseEvents.json();
     await dataEvents.forEach(x => createEvent(x.name, x.dates, x.location, x.description, x.event_type, x.target_audience))
-    const responseNews = await fetch(process.env.NEWS_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-            "X-Group-Authorization": process.env.API_KEY,
-        },
-    });
-    const dataNews = await responseNews.json();
-    for (const x of dataNews) {
-        const responseNewsId = await fetch(process.env.NEWS_API_ENDPOINT + '/' + x.id, {
-            method: "GET",
-            headers: {
-                "X-Group-Authorization": process.env.API_KEY,
-            },
-        });
-        const dataNewsId = await responseNewsId.json();
-        x.startup_id = dataNewsId.startup_id;
-        x.description = dataNewsId.description;
-    }
-    await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.startup_id, x.description))
     const responseStartups = await fetch(process.env.STARTUPS_API_ENDPOINT, {
         method: "GET",
         headers: {
@@ -96,10 +77,10 @@ async function callMigration(){
             headers: {
                 "X-Group-Authorization": process.env.API_KEY,
             },
-        }, 10, 200); // 10 retries, 200ms delay
+        }, 10, 200);
 
         if (!responseStartupsUnique) {
-            continue; // skip this startup if still failing
+            continue;
         }
 
         const dataStartupsUnique = await responseStartupsUnique.json();
@@ -122,6 +103,39 @@ async function callMigration(){
             "0123456"
         );
     }
+    const responseNews = await fetch(process.env.NEWS_API_ENDPOINT, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    });
+    const dataNews = await responseNews.json();
+    for (const x of dataNews) {
+        const responseNewsId = await fetch(process.env.NEWS_API_ENDPOINT + '/' + x.id, {
+            method: "GET",
+            headers: {
+                "X-Group-Authorization": process.env.API_KEY,
+            },
+        });
+
+        if (!responseNewsId.ok) {
+            const text = await responseNewsId.text();
+            console.error(`❌ Error ${responseNewsId.status} at NEWS/${x.id}`, text);
+            continue;
+        }
+
+        const dataNewsId = await responseNewsId.json();
+        x.description = dataNewsId.description;
+        const responseStartupById = await fetch(process.env.STARTUPS_API_ENDPOINT + '/' + dataNewsId.id, {
+            method: "GET",
+            headers: {
+                "X-Group-Authorization": process.env.API_KEY,
+            },
+        });
+        const dataStartupById = await responseStartupById.json();
+        x.startup_id = await getIdStartupByEmail(dataStartupById.email);
+    }
+    await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.startup_id, x.description))
 }
 
 module.exports = callMigration;

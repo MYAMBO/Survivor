@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const createStartup = require("../data/startupsManagement");
+const {createStartup} = require("../data/startupsManagement");
 
 router.post('/createStartup', async (req, res) => {
     const {name, legal_status, address, email, phone, sector, maturity, password} = req.body;

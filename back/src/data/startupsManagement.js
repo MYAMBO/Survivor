@@ -41,4 +41,25 @@ async function createStartup(name, legal_status, address, email, phone, created_
     return 0;
 }
 
-module.exports = createStartup
+async function getIdStartupByEmail(email) {
+    const snapshot = await db.ref('startups').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const users = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(users, null, 0)
+        const myObj = JSON.parse(myStr)
+        for (const user of myObj){
+            if (user.email === email){
+                return user.id;
+            }
+        }
+    } else {
+        console.log("Not found")
+    }
+    return '';
+}
+
+module.exports = {createStartup, getIdStartupByEmail}
