@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { createContext, useContext, useState, useEffect } from "react";
 
 import Catalogue from "../Catalogue/Catalogue";
@@ -96,6 +96,29 @@ function HeaderWrapper() {
 //
 
 function App() {
+  const [role, setRole] = useState('none');
+
+  useEffect(() => {
+    fetch("http://localhost:3000/profile", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json" },
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.status === 401) return { role: 'none' }
+        return res.json()
+      })
+      .then(data => {
+        if (data && data.role) setRole(data.role)
+      })
+      .catch(err => {
+        console.error('Erreur fetch:', err)
+        setRole('none')
+      })
+  }, [])
+
   return (
     <AuthProvider>
       <BrowserRouter>

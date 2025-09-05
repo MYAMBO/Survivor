@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
-import bcrypt from 'bcryptjs';
 
 function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
-    const [isLogin, setIsLogin] = useState(true);
 
     const [formData, setFormData] = useState({
         name : "",
@@ -23,7 +21,6 @@ function SignUp({ onSignUp }) {
             return;
         }
 
-        const hashedPassword = bcrypt.hashSync(formData.password, 10);  
         fetch("http://localhost:3000/createUser", {
             method: "POST",
             headers: {
@@ -32,7 +29,7 @@ function SignUp({ onSignUp }) {
             },
             body: JSON.stringify({
                 ...formData,
-                password: hashedPassword
+                password: formData.password
             }),
         })
         .then(res => res.json())
