@@ -1,0 +1,249 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    min-height: 100%;
+    background: linear-gradient(35deg, var(--color-magenta), var(--color-red));
+    font: menu;
+    font-weight: bold;
+
+    h2 {
+        margin: 20px 0px;
+        font-size: 50px !important;
+        color: white;
+        font-size:x-large
+    }
+
+    transition: background 0.6s ease;
+}
+
+.login-container.investor-bg {
+    background: linear-gradient(75deg, var(--color-purple), var(--color-pink));
+    transition: smooth;
+}
+
+.login-container.founder-bg {
+    background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
+}
+
+.login-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 300px;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 300px;
+}
+
+.signup-form input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    font: var(--font-body);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.signup-form input:focus {
+    outline: none;
+    border-color: #6a5acd;
+    box-shadow: 0 0 6px rgba(106, 90, 205, 0.5);
+}
+
+.signup-form button {
+    padding: 12px;
+    background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font : var(--font-body);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.signup-form button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.login-form input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font : var(--font-body);
+    font-size: 1rem;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #6a5acd;
+    box-shadow: 0 0 6px rgba(106, 90, 205, 0.5);
+}
+
+.login-form-button {
+    padding: 12px;
+    background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
+    color: white;
+    font : var(--font-body);
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-form-button:hover {
+    transform: scale(1.05);
+}
+
+/* Toggle Button Styles */
+
+.toggle-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    background-color: #eee;
+    border-radius: 30px;
+    padding: 5px;
+    width: 250px;
+    margin: 15px auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  }
+  
+.toggle-container button {
+    flex: 1;
+    z-index: 2;
+    border: none;
+    background: none;
+    font: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    border-radius: 30px;
+}
+  
+.toggle-container button.active {
+    color: white;
+    .login-container {
+        background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
+    }
+}
+  
+.slider {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    width: 50%;
+    border-radius: 30px;
+    background-color: var(--color-red-pink);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+  
+.slider.left {
+    transform: translateX(0%);
+}
+  
+.slider.right {
+    transform: translateX(90%);
+}
+  
+
+.sign-up-form {
+    overflow-y: auto;
+    height: 200px;
+}
+
+.logo-image {
+    margin-top: 20px;
+    border-radius: 16px;
+    width: 150px;
+    height: auto;
+}
+
+.back-home > * {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
+    color: white;
+    font: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.back-home .home-button-img {
+    padding-bottom: 7px;
+    visibility: hidden;
+}
+
+@media (max-width:501px) {
+    .login-form-section {
+        width: 200px;
+    }
+    .back-home .home-button-img {
+        visibility: visible;
+    }
+    .back-home .home-button-text {
+        visibility: hidden !important;
+    }
+}
+
+.back-home .home-button-text:hover {
+    transform: scale(1.05);
+    background-color: black;
+    color: white;
+}
+
+.back-home .home-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple-light));
+}
+
+
+.login-container h2 {
+    font-weight: bold;
+    font-size:x-large
+}
+
+.login-container p {
+    font-weight: bold;
+}
+
+.back-home .home-button-img:hover {
+    transform: scale(1.05);
+    background-color: black;
+    color: white;
+}

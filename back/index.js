@@ -10,11 +10,12 @@ const cors = require('cors');
 const schedule = require('node-schedule');
 const callMigration = require('./src/data/apiMigration')
 
-const homeRoutes = require('./src/routes/home');
+const profileRoutes = require('./src/routes/profile');
 const loginRoutes = require('./src/routes/login');
 const logoutRoutes = require('./src/routes/logout');
 const startupsRoutes = require('./src/routes/startups');
 const userRoutes = require('./src/routes/users');
+const startupsProfileRoutes = require('./src/routes/startupsProfile')
 
 const options = {
   definition: {
@@ -41,11 +42,12 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/', homeRoutes);
+app.use('/', profileRoutes);
 app.use('/', loginRoutes);
 app.use('/', logoutRoutes);
 app.use('/', startupsRoutes);
 app.use('/', userRoutes);
+app.use('/', startupsProfileRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');

@@ -41,6 +41,44 @@ async function createStartup(name, legal_status, address, email, phone, created_
     return 0;
 }
 
+async function getStartupList() {
+    const snapshot = await db.ref('startups').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const startups = Object.entries(obj).map(([id, data]) => ({
+            id,
+            name: data.name,
+            sector: data.sector,
+            maturity: data.maturity,
+            location: data.address
+        }));
+        return startups;
+    } else {
+        console.log("Not found")
+    }
+}
+
+async function GetStartupInformationsById(id) {
+    const snapshot = await db.ref('startups').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const startups = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(startups, null, 0)
+        const myObj = JSON.parse(myStr)
+        for (const startup of myObj){
+            if (startup.id === id){
+                const { password, ...startupWithoutPassword } = startup;
+                return startupWithoutPassword;
+            }
+        }
+    } else {
+        console.log("Not found")
+    }
+}
+
 async function getIdStartupByEmail(email) {
     const snapshot = await db.ref('startups').once('value');
     if (snapshot.exists()) {
@@ -62,4 +100,4 @@ async function getIdStartupByEmail(email) {
     return '';
 }
 
-module.exports = {createStartup, getIdStartupByEmail}
+module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail}
