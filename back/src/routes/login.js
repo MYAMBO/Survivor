@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { activeTokens } = require('../utils/users');
 const { findUserDataByNameOrEmail } = require('../data/loginManagement');
@@ -45,7 +46,12 @@ router.post('/login', async (req, res) => {
 
     const user = await findUserDataByNameOrEmail('users', name)
 
-    if (!user || password !== user.password)
+    if (!user)
+        return res.status(400).json({ message: 'Invalid credentials' });
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match)
         return res.status(400).json({ message: 'Invalid credentials' });
 
     const id = user.id
