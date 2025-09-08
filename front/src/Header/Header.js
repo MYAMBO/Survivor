@@ -51,7 +51,7 @@ function Header() {
           <Link to="/profile" onClick={closeAllMenus}>Profile</Link>
             <Link to="/" onClick={() => {
               fetch("http://localhost:3000/logout", {
-                method: "POST",
+                method: "GET",
                 headers: {
                   "Accept": "application/json",
                   "Content-Type": "application/json"

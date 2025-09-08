@@ -1,7 +1,36 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 import "./Login.css";
 import "./Popup.css";
+
+function Connect () {
+    const [role, setRole] = useState('none');
+
+    useEffect(() => {
+        fetch("http://localhost:3000/profile", {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json" },
+          credentials: 'include'
+        })
+          .then(res => {
+            if (res.status === 401) return { role: 'none' }
+            return res.json()
+          })
+          .then(data => {
+            if (data && data.role)
+              setRole(data.role)
+              localStorage.setItem("role", data.role);
+            })
+          .catch(err => {
+            console.error('Erreur fetch:', err)
+            setRole('none')
+            localStorage.setItem("role", 'none');
+          })
+        }, [])
+}
 
 function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
@@ -49,6 +78,7 @@ function SignUp({ onSignUp }) {
         .then(data => {
             console.log("Inscription réussie :", data);
             if (onSignUp) onSignUp(data);
+            Connect();
             navigate("/");
         })
         .catch(err => {

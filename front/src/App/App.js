@@ -1,6 +1,5 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { Navigate } from "react-router-dom";
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
 import Catalogue from '../Catalogue/Catalogue';
 import Messaging from '../Startup Area/Messaging/Messaging'
@@ -14,14 +13,7 @@ import Login from '../Log/Login';
 import Home from '../Home/Home';
 import './App.css';
 
-function HeaderWrapper() {
-  const location = useLocation();
-  const hideHeaderPaths = ['/login', '/signup'];
-
-  return hideHeaderPaths.includes(location.pathname) ? null : <Header />;
-}
-
-function App() {
+function App() {  
   const [role, setRole] = useState('none');
 
   useEffect(() => {
@@ -37,10 +29,11 @@ function App() {
         return res.json()
       })
       .then(data => {
-        if (data && data.role)
-          setRole(data.role)
+        if (data && data.role) {
+          setRole(data.role);
           localStorage.setItem("role", data.role);
-        })
+        }
+      })      
       .catch(err => {
         console.error('Erreur fetch:', err)
         setRole('none')
@@ -48,9 +41,13 @@ function App() {
       })
     }, [])
 
+    const hideHeaderPaths = ['/login', '/signup'];
+    const currentPath = window.location.pathname;
+    const showHeader = !hideHeaderPaths.includes(currentPath);
+
     return (
       <BrowserRouter>
-        <HeaderWrapper/>
+        {showHeader && <Header />}
         <Routes>
           <Route path='/' element={<Home/>}/>
           {role === 'none' && (
@@ -61,11 +58,11 @@ function App() {
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (
             <>
-            <Route path='/catalog' element={<Catalogue/>}/>
-            <Route path='/calendar' element={<Calendar/>}/>
-            <Route path='/profile' element={<Profile/>}/>
-            <Route path='/messaging' element={<Messaging/>}/>
-            <Route path='/opportunities' element={<Opportunities/>}/>
+              <Route path='/catalog' element={<Catalogue/>}/>
+              <Route path='/calendar' element={<Calendar/>}/>
+              <Route path='/profile' element={<Profile/>}/>
+              <Route path='/messaging' element={<Messaging/>}/>
+              <Route path='/opportunities' element={<Opportunities/>}/>
             </>
           )}
           {role === 'admin' && (
@@ -74,5 +71,6 @@ function App() {
         </Routes>
       </BrowserRouter>
     );
-  }
+}
+
 export default App;
