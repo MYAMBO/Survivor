@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
 import "../Base.css";
@@ -6,7 +6,9 @@ import "../Base.css";
 function Login({ onLogin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -22,12 +24,25 @@ function Login({ onLogin }) {
             }),
             credentials: 'include'
         })
-        .then(res => res.json())
+        .then(async res => {
+            const data = await res.json();
+        
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            return data;
+        })
         .then(data => {
             console.log("Inscription réussie :", data);
+            if (Login) Login(data);
+            navigate("/");
         })
         .catch(err => {
-            console.error("Erreur :", err);
+            console.error("Erreur :", err.message);
+            setError(err.message);
         });
     };
 
@@ -46,8 +61,8 @@ function Login({ onLogin }) {
             <div className="login-form-section">
                 <form onSubmit={handleSubmit} className="login-form">
                     <input
-                        type="text"
-                        placeholder="Email Adress / Name"
+                        type="email"
+                        placeholder="Email Adress"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -65,6 +80,15 @@ function Login({ onLogin }) {
             <p className="signup-link">
                 Don't have an account? <a href="/signup">Sign up</a>
             </p>
+            {error && (
+            <div className="popup-overlay">
+                <div className="popup">
+                <h3>Error</h3>
+                <p>{error}</p>
+                <button onClick={() => setError(false)}>Ok</button>
+                </div>
+            </div>
+            )}
         </div>
     );
 }

@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
+import "./Popup.css";
 
 function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         name : "",
@@ -24,17 +27,34 @@ function SignUp({ onSignUp }) {
         fetch("http://localhost:3000/createUser", {
             method: "POST",
             headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 ...formData,
                 password: formData.password
             }),
         })
-        .then(res => res.json())
-        .then(data => {console.log("Inscription réussie :", data);})
-        .catch(err => {console.error("Erreur :", err);});
+        .then(async res => {
+            const data = await res.json();
+        
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            return data;
+        })
+        .then(data => {
+            console.log("Inscription réussie :", data);
+            if (onSignUp) onSignUp(data);
+            navigate("/");
+        })
+        .catch(err => {
+            console.error("Erreur :", err.message);
+            setError(err.message);
+        });
     }
 
     const handleChangeUser = (e) => {
@@ -110,6 +130,15 @@ function SignUp({ onSignUp }) {
             <p className="signup-link">
                 Already have an account? <Link to="/login">Log in</Link>
             </p>
+            {error && (
+            <div className="popup-overlay">
+                <div className="popup">
+                <h3>Error</h3>
+                <p>{error}</p>
+                <button onClick={() => setError(false)}>Ok</button>
+                </div>
+            </div>
+            )}
         </div>
     );
 }
