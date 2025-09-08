@@ -33,7 +33,7 @@ function App() {
           setRole(data.role);
           localStorage.setItem("role", data.role);
         }
-      })      
+      })
       .catch(err => {
         console.error('Erreur fetch:', err)
         setRole('none')

@@ -1,73 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Catalogue.css";
 import "../Base.css";
-
-const startups = [
-  {
-    id: 1,
-    name: "TechNova",
-    sector: "AI",
-    maturity: "Seed",
-    location: "New York, USA",
-    email: "contact@technova.com"
-  },
-  {
-    id: 2,
-    name: "GreenWave",
-    sector: "Renewable Energy",
-    maturity: "Series A",
-    location: "Berlin, Germany",
-    email: "info@greenwave.com"
-  },
-  {
-    id: 3,
-    name: "Foodify",
-    sector: "FoodTech",
-    maturity: "Early Stage",
-    location: "San Francisco, USA",
-    email: "hello@foodify.com"
-  },
-  {
-    id: 4,
-    name: "MediLink",
-    sector: "HealthTech",
-    maturity: "Series B",
-    location: "London, UK",
-    email: "contact@medilink.com"
-  },
-  {
-    id: 5,
-    name: "AgroNext",
-    sector: "AgriTech",
-    maturity: "Seed",
-    location: "Paris, France",
-    email: "team@agronext.com"
-  },
-  {
-    id: 6,
-    name: "SkyChain",
-    sector: "Blockchain",
-    maturity: "Series A",
-    location: "Tokyo, Japan",
-    email: "info@skychain.com"
-  },
-  {
-    id: 7,
-    name: "UrbanMove",
-    sector: "Mobility",
-    maturity: "Early Stage",
-    location: "Toronto, Canada",
-    email: "zouecbzeocbezc"
-  },
-  {
-    id: 8,
-    name: "EcoBuild",
-    sector: "ConstructionTech",
-    maturity: "Series B",
-    location: "Sydney, Australia",
-    email: "jbzcbz"
-  }
-];
 
 function Catalogue() {
   const [filters, setFilters] = useState({
@@ -76,42 +9,97 @@ function Catalogue() {
     sector: ""
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [startups, setStartups] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/startups", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json" },
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.status === 401) return [];
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setStartups(data);
+        } else {
+          console.error("Données reçues invalides :", data);
+          setStartups([]);
+        }
+      })
+      .catch(err => {
+        console.error("Erreur fetch:", err);
+        setStartups([]);
+      });
+  }, []);
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const filteredStartups = startups.filter((s) => {
-    return (
+    const matchesFilters =
       (filters.maturity === "" || s.maturity === filters.maturity) &&
-      (filters.location === "" || s.location === filters.location) &&
-      (filters.sector === "" || s.sector === filters.sector)
-    );
+      (filters.location === "" ||  s.location.split(" ").pop() === filters.location) &&
+      (filters.sector === "" || s.sector === filters.sector);
+
+    const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesFilters && matchesSearch;
   });
 
   const uniqueMaturities = [...new Set(startups.map((s) => s.maturity))];
   const uniqueLocations = [...new Set(startups.map((s) => s.location))];
   const uniqueSectors = [...new Set(startups.map((s) => s.sector))];
 
+  for (let i = 0; i < uniqueLocations.length; i++) {
+    const parts = uniqueLocations[i].split(" ");
+    uniqueLocations[i] = parts[parts.length - 1];
+  }
+  const trimedLocations = [];
+  for (let i = 0; i < uniqueLocations.length; i++) {
+    for (let j = 0; j < trimedLocations.length; j++) {
+      if (uniqueLocations[i] === trimedLocations[j]) break;
+      if (j === trimedLocations.length - 1) trimedLocations.push(uniqueLocations[i]);
+    }
+    if (trimedLocations.length === 0) trimedLocations.push(uniqueLocations[i]);
+  }
+
   return (
     <div className="catalogue-container">
       <h2>Startup Catalog</h2>
-
+      <div className="searchbar">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
       <div className="filters" style={{ textAlign: "center", marginBottom: "20px" }}>
+        <br />
         <select name="maturity" value={filters.maturity} onChange={handleFilterChange}>
           <option value="">All Maturities</option>
           {uniqueMaturities.map((m) => (
             <option key={m} value={m}>{m}</option>
           ))}
         </select>
-
         <select name="location" value={filters.location} onChange={handleFilterChange}>
           <option value="">All Locations</option>
-          {uniqueLocations.map((loc) => (
+          {trimedLocations.map((loc) => (
             <option key={loc} value={loc}>{loc}</option>
           ))}
         </select>
-
         <select name="sector" value={filters.sector} onChange={handleFilterChange}>
           <option value="">All Sectors</option>
           {uniqueSectors.map((sec) => (
@@ -119,7 +107,6 @@ function Catalogue() {
           ))}
         </select>
       </div>
-
       <div className="ag-format-container">
         <div className="ag-courses_box">
           {filteredStartups.length > 0 ? (
@@ -132,7 +119,11 @@ function Catalogue() {
                     <p><strong>Sector:</strong> {startup.sector}</p>
                     <p><strong>Maturity:</strong> {startup.maturity}</p>
                     <p><strong>Location:</strong> {startup.location}</p>
-                    <p><strong>Email:</strong> {startup.email}</p>
+                    {Object.entries(startup).map(([key, value]) => (
+                      !["id","name","sector","maturity","location","email"].includes(key) && (
+                        <p key={key}><strong>{key}:</strong> {String(value)}</p>
+                      )
+                    ))}
                   </div>
                 </a>
               </div>

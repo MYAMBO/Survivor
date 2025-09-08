@@ -72,9 +72,7 @@ export async function fetchAndStoreRole() {
         .then(async data => {
           console.log("Inscription réussie :", data);
           if (onSignUp) onSignUp(data);
-  
           await fetchAndStoreRole();
-  
           navigate("/");
         })
         .catch(err => {
