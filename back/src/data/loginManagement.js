@@ -1,7 +1,6 @@
 const db = require("../db/firebaseSettings");
-const { use } = require("react");
 
-async function findUserDataByNameOrEmail(tableName, name) {
+async function findUserDataByEmail(tableName, email) {
     const snapshot = await db.ref(tableName).once('value');
     if (snapshot.exists()) {
         const obj = snapshot.val()
@@ -12,7 +11,7 @@ async function findUserDataByNameOrEmail(tableName, name) {
         const myStr = JSON.stringify(users, null, 0)
         const myObj = JSON.parse(myStr)
         for (const user of myObj){
-            if (user.name === name || user.email === name){
+            if (user.email === email){
                 return user;
             }
         }
@@ -21,4 +20,4 @@ async function findUserDataByNameOrEmail(tableName, name) {
     }
 }
 
-module.exports = {findUserDataByNameOrEmail}
+module.exports = {findUserDataByEmail}
