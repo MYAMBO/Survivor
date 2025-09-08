@@ -5,7 +5,7 @@ import Messaging from '../Startup Area/Messaging/Messaging'
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
 import Dashboard from '../Startup Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
-import Calendar from '../Calendar/Calendar';
+import MyCalendar from '../Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
@@ -32,7 +32,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/signup' element={<SignUp/>}/>
-        <Route path='/calendar' element={<Calendar/>}/>
+        <Route path='/calendar' element={<MyCalendar/>}/>
         <Route path='/messaging' element={<Messaging/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
         <Route path='/opportunities' element={<Opportunities/>}/>
