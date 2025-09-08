@@ -18,4 +18,23 @@ async function createEvent(name, dates, location, description, event_type, targe
     return id;
 }
 
-module.exports = {createEvent}
+async function getEventListByPeriod(start, end) {
+    const snapshot = await db.ref("events").once("value");
+    let eventsList = [];
+    if (snapshot.exists()) {
+        const obj = snapshot.val();
+        const events = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+
+        eventsList = events.filter(event => {
+            return event.dates >= start && event.dates <= end;
+        });
+    } else {
+        console.log("No events found");
+    }
+    return eventsList;
+}
+
+module.exports = {createEvent, getEventListByPeriod}
