@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { fetchAndStoreRole } from "./Signup";
 import "./Login.css";
 import "../Base.css";
 
@@ -37,8 +38,11 @@ function Login({ onLogin }) {
         })
         .then(data => {
             console.log("Inscription réussie :", data);
-            if (Login) Login(data);
+            if (onLogin) Login(data);
+            fetchAndStoreRole();
             navigate("/");
+            window.location.reload(true);
+            
         })
         .catch(err => {
             console.error("Erreur :", err.message);

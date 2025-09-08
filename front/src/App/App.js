@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-import Catalogue from '../Catalogue/Catalogue';
-import Messaging from '../Startup Area/Messaging/Messaging'
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
+import Messaging from '../Startup Area/Messaging/Messaging'
 import Dashboard from '../Startup Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
+import Catalogue from '../Catalogue/Catalogue';
 import Calendar from '../Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';

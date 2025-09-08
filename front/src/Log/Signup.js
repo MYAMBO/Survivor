@@ -1,92 +1,88 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Login.css";
 import "./Popup.css";
 
-function Connect () {
-    const [role, setRole] = useState('none');
+export async function fetchAndStoreRole() {
+    try {
+      const res = await fetch("http://localhost:3000/profile", {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      });
+  
+      if (res.status === 401) {
+        localStorage.setItem("role", "none");
+        return "none";
+      }
+  
+      const data = await res.json();
+      if (data && data.role) {
+        localStorage.setItem("role", data.role);
+        return data.role;
+      }
+  
+      localStorage.setItem("role", "none");
+      return "none";
+    } catch (err) {
+      console.error("Erreur fetch:", err);
+      localStorage.setItem("role", "none");
+      return "none";
+    }
+  }
+  
 
-    useEffect(() => {
-        fetch("http://localhost:3000/profile", {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json" },
-          credentials: 'include'
-        })
-          .then(res => {
-            if (res.status === 401) return { role: 'none' }
-            return res.json()
-          })
-          .then(data => {
-            if (data && data.role)
-              setRole(data.role)
-              localStorage.setItem("role", data.role);
-            })
-          .catch(err => {
-            console.error('Erreur fetch:', err)
-            setRole('none')
-            localStorage.setItem("role", 'none');
-          })
-        }, [])
-}
-
-function SignUp({ onSignUp }) {
+  function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
-        name : "",
-        email: "",
-        role : "",
-        password: "",
-        confirmPassword: ""
+      name : "",
+      email: "",
+      role : "",
+      password: "",
+      confirmPassword: ""
     });
-
+  
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
-
-        fetch("http://localhost:3000/createUser", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                ...formData,
-                password: formData.password
-            }),
-        })
+      e.preventDefault();
+  
+      if (formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+  
+      fetch("http://localhost:3000/createUser", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData),
+      })
         .then(async res => {
-            const data = await res.json();
-        
-            if (!res.ok) {
-                throw new Error(data.message);
-            }
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            return data;
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Erreur inconnue");
+          if (data.error) throw new Error(data.error);
+          return data;
         })
-        .then(data => {
-            console.log("Inscription réussie :", data);
-            if (onSignUp) onSignUp(data);
-            Connect();
-            navigate("/");
+        .then(async data => {
+          console.log("Inscription réussie :", data);
+          if (onSignUp) onSignUp(data);
+  
+          await fetchAndStoreRole();
+  
+          navigate("/");
         })
         .catch(err => {
-            console.error("Erreur :", err.message);
-            setError(err.message);
+          console.error("Erreur :", err.message);
+          setError(err.message);
         });
-    }
-
+    };
+  
     const handleChangeUser = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
