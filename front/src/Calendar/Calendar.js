@@ -15,10 +15,20 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const events = [
-];
-
 export default function MyCalendar() {
+  let events = [
+    {
+      title: "Conference",
+      start: new Date(2025, 8, 15, 9, 0),
+      end: new Date(2025, 8, 15, 17, 0),
+      description: "",
+      type: "",
+      location: "",
+      targetAudience: "",
+      image: ""
+    }
+  ];
+
   return (
     <div className="Calendar-wrapper">
       <Calendar
