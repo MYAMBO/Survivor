@@ -128,7 +128,7 @@ h2 {
   width: fit-content;
   justify-content: center;
   gap: 15px;
-  margin: 30px auto;
+  margin: 20px auto;
   padding: 15px 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
@@ -155,4 +155,32 @@ h2 {
 
 .filters select:focus {
   border: 2px solid var(--color-magenta);
+}
+
+.searchbar {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px auto;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  max-width: auto;
+}
+
+.searchbar input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
 }
