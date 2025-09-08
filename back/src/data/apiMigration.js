@@ -14,12 +14,12 @@ async function fetchWithRetry(url, options, retries = 10, delay = 10) {
                 throw new Error(`HTTP ${res.status}`);
             }
 
-            return res; // ✅ success
+            return res;
         } catch (err) {
             if (attempt < retries) {
                 await new Promise(resolve => setTimeout(resolve, delay)); // wait before retry
             } else {
-                return null; // give up
+                return null;
             }
         }
     }
@@ -27,115 +27,142 @@ async function fetchWithRetry(url, options, retries = 10, delay = 10) {
 
 
 async function callMigration(){
-    const response = await fetch(process.env.USERS_API_ENDPOINT, {
+    const response = await fetchWithRetry(process.env.USERS_API_ENDPOINT, {
         method: "GET",
         headers: {
             "X-Group-Authorization": process.env.API_KEY,
         },
-    });
-    const data = await response.json();
-    await data.forEach(x => createUser(x.email, x.name, x.role, "0123456"))
-    const responseInvestors = await fetch(process.env.INVESTORS_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-            "X-Group-Authorization": process.env.API_KEY,
-        },
-    });
-    const dataInvestors = await responseInvestors.json();
-    await dataInvestors.forEach(x => createInvestor(x.email, x.name, x.legal_status, x.address, x.phone, x.created_at, x.description, x.investor_type, x.investment_focus))
-    const responsePartners = await fetch(process.env.PARTNERS_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-            "X-Group-Authorization": process.env.API_KEY,
-        },
-    });
-    const dataPartners = await responsePartners.json();
-    await dataPartners.forEach(x => createPartner(x.email, x.name, x.legal_status, x.address, x.phone, x.created_at, x.description, x.partnership_type))
-    const responseEvents = await fetch(process.env.EVENTS_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-            "X-Group-Authorization": process.env.API_KEY,
-        },
-    });
-    const dataEvents = await responseEvents.json();
-    await dataEvents.forEach(x => createEvent(x.name, x.dates, x.location, x.description, x.event_type, x.target_audience))
-    const responseStartups = await fetch(process.env.STARTUPS_API_ENDPOINT, {
-        method: "GET",
-        headers: {
-            "X-Group-Authorization": process.env.API_KEY,
-        },
-    });
-    const dataStartups = await responseStartups.json();
-    // console.log(dataStartups);
-    // await dataStartups.forEach(x => createStartup(x.name, x.legal_status, x.address, x.email, x.phone, x.created_at, x.description, x.website_url, x.social_media_url, x.project_status, x.needs, x.sector, x.maturity, x.founders, "0123456"))
-    for (const x of dataStartups) {
-        const url = `${process.env.STARTUPS_API_ENDPOINT}/${x.id}`;
-        // console.log("Fetching:", url);
+    }, 10, 200);
 
-        const responseStartupsUnique = await fetchWithRetry(url, {
-            method: "GET",
-            headers: {
-                "X-Group-Authorization": process.env.API_KEY,
-            },
-        }, 10, 200);
-
-        if (!responseStartupsUnique) {
-            continue;
-        }
-
-        const dataStartupsUnique = await responseStartupsUnique.json();
-
-        await createStartup(
-            x.name,
-            x.legal_status,
-            x.address,
-            x.email,
-            x.phone,
-            dataStartupsUnique.created_at,
-            dataStartupsUnique.description,
-            dataStartupsUnique.website_url,
-            dataStartupsUnique.social_media_url,
-            dataStartupsUnique.project_status,
-            dataStartupsUnique.needs,
-            x.sector,
-            x.maturity,
-            dataStartupsUnique.founders,
-            "0123456"
-        );
+    if (response){
+        const data = await response.json();
+        await data.forEach(x => createUser(x.email, x.name, x.role, "0123456"))
     }
-    const responseNews = await fetch(process.env.NEWS_API_ENDPOINT, {
+
+    const responseInvestors = await fetchWithRetry(process.env.INVESTORS_API_ENDPOINT, {
         method: "GET",
         headers: {
             "X-Group-Authorization": process.env.API_KEY,
         },
-    });
-    const dataNews = await responseNews.json();
-    for (const x of dataNews) {
-        const responseNewsId = await fetch(process.env.NEWS_API_ENDPOINT + '/' + x.id, {
-            method: "GET",
-            headers: {
-                "X-Group-Authorization": process.env.API_KEY,
-            },
-        });
+    }, 10, 200);
 
-        if (!responseNewsId.ok) {
-            const text = await responseNewsId.text();
-            console.error(`❌ Error ${responseNewsId.status} at NEWS/${x.id}`, text);
-            continue;
-        }
-
-        const dataNewsId = await responseNewsId.json();
-        x.description = dataNewsId.description;
-        const responseStartupById = await fetch(process.env.STARTUPS_API_ENDPOINT + '/' + dataNewsId.id, {
-            method: "GET",
-            headers: {
-                "X-Group-Authorization": process.env.API_KEY,
-            },
-        });
-        const dataStartupById = await responseStartupById.json();
-        x.startup_id = await getIdStartupByEmail(dataStartupById.email);
+    if (responseInvestors){
+        const dataInvestors = await responseInvestors.json();
+        await dataInvestors.forEach(x => createInvestor(x.email, x.name, x.legal_status, x.address, x.phone, x.created_at, x.description, x.investor_type, x.investment_focus))
     }
-    await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.startup_id, x.description))
+
+    const responsePartners = await fetchWithRetry(process.env.PARTNERS_API_ENDPOINT, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    }, 10, 200);
+
+    if (responsePartners){
+        const dataPartners = await responsePartners.json();
+        await dataPartners.forEach(x => createPartner(x.email, x.name, x.legal_status, x.address, x.phone, x.created_at, x.description, x.partnership_type))
+    }
+
+    const responseEvents = await fetchWithRetry(process.env.EVENTS_API_ENDPOINT, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    }, 10, 200);
+
+    if (responseEvents){
+        const dataEvents = await responseEvents.json();
+        await dataEvents.forEach(x => createEvent(x.name, x.dates, x.location, x.description, x.event_type, x.target_audience, x.id))
+    }
+
+    const responseStartups = await fetchWithRetry(process.env.STARTUPS_API_ENDPOINT, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    }, 10, 200);
+
+    if (responseStartups){
+        const dataStartups = await responseStartups.json();
+        // console.log(dataStartups);
+        // await dataStartups.forEach(x => createStartup(x.name, x.legal_status, x.address, x.email, x.phone, x.created_at, x.description, x.website_url, x.social_media_url, x.project_status, x.needs, x.sector, x.maturity, x.founders, "0123456"))
+        for (const x of dataStartups) {
+            const url = `${process.env.STARTUPS_API_ENDPOINT}/${x.id}`;
+            // console.log("Fetching:", url);
+
+            const responseStartupsUnique = await fetchWithRetry(url, {
+                method: "GET",
+                headers: {
+                    "X-Group-Authorization": process.env.API_KEY,
+                },
+            }, 10, 200);
+
+            if (!responseStartupsUnique) {
+                continue;
+            }
+
+            const dataStartupsUnique = await responseStartupsUnique.json();
+
+            await createStartup(
+                x.name,
+                x.legal_status,
+                x.address,
+                x.email,
+                x.phone,
+                dataStartupsUnique.created_at,
+                dataStartupsUnique.description,
+                dataStartupsUnique.website_url,
+                dataStartupsUnique.social_media_url,
+                dataStartupsUnique.project_status,
+                dataStartupsUnique.needs,
+                x.sector,
+                x.maturity,
+                dataStartupsUnique.founders,
+                "0123456"
+            );
+        }
+    }
+
+    const responseNews = await fetchWithRetry(process.env.NEWS_API_ENDPOINT, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    }, 10, 200);
+
+    if (responseNews)
+    {
+        const dataNews = await responseNews.json();
+        for (const x of dataNews) {
+            const responseNewsId = await fetchWithRetry(process.env.NEWS_API_ENDPOINT + '/' + x.id, {
+                method: "GET",
+                headers: {
+                    "X-Group-Authorization": process.env.API_KEY,
+                },
+            }, 10, 200);
+
+            if (!responseNewsId) {
+                continue
+            }
+
+            const dataNewsId = await responseNewsId.json();
+            x.description = dataNewsId.description;
+            const responseStartupById = await fetchWithRetry(process.env.STARTUPS_API_ENDPOINT + '/' + dataNewsId.id, {
+                method: "GET",
+                headers: {
+                    "X-Group-Authorization": process.env.API_KEY,
+                },
+            }, 10, 200);
+
+            if (!responseStartupById) {
+                continue;
+            }
+
+            const dataStartupById = await responseStartupById.json();
+            x.startup_id = await getIdStartupByEmail(dataStartupById.email);
+        }
+        await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.id, x.startup_id, x.description))
+    }
 }
 
 module.exports = callMigration;

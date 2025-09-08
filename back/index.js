@@ -68,10 +68,10 @@ app.use((req, res) => {
     res.status(404).send('Not Found');
 });
 
-//schedule.scheduleJob('0 */10 * * * *', async () => {
-//    console.log('Migrated API');
-//    await callMigration();
-//});
+schedule.scheduleJob('0 */1 * * * *', async () => {
+   console.log('Migrated API');
+   await callMigration();
+});
 
 console.log(`App starting on port ${port}`);
 console.log(`Swagger Documentation: http://localhost:${port}/api-docs`);
