@@ -7,8 +7,7 @@ async function getData(startDate, endDate) {
       },
       body: JSON.stringify({
         start: startDate,
-        end: endDate,
-        userId: 1
+        end: endDate
       })
     });
 
@@ -26,8 +25,32 @@ async function getData(startDate, endDate) {
   }
 }
 
-export default function updateEvents (startDate, endDate) {
-  let rawEvents = getData(startDate, endDate);
+function transformEvent(event) {
+  return {
+    title: event.title,
+    start: event.date,
+    end: new Date(
+      event.date.getFullYear(),
+      event.date.getMonth(),
+      event.date.getDate(),
+      17,
+      0
+    ),
+    description: event.description,
+    type: event.type,
+    location: event.location,
+    targetAudience: event.targetAudience,
+  };
+}
 
-  let events = ""/*rawEvents.map(transfromEvent)*/;
+export async function updateEvents (startDate, endDate) {
+  let rawEvents = await getData(startDate, endDate);
+
+  if (!Array.isArray(rawEvents)) {
+    rawEvents = [];
+  }
+
+  let events = rawEvents.map(transformEvent);
+
+  return events;
 }
