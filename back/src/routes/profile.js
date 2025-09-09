@@ -9,7 +9,9 @@ router.get('/profile', authenticateToken, async (req, res) => {
     res.json({
         "name": user.name,
         "email": user.email,
-        "role": user.role
+        "role": user.role,
+        "image": user.image,
+        "metadata": user.metadata
     })
 });
 
