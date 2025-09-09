@@ -68,7 +68,7 @@ app.use((req, res) => {
     res.status(404).send('Not Found');
 });
 
-schedule.scheduleJob('0 */1 * * * *', async () => {
+schedule.scheduleJob('0 */10 * * * *', async () => {
    console.log('Migrated API');
    await callMigration();
 });
