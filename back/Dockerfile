@@ -1,5 +1,5 @@
 FROM node:18
-WORKDIR /app
-COPY . .
+WORKDIR /back
+COPY ./back .
 RUN npm install
 CMD ["node", "index.js"]
