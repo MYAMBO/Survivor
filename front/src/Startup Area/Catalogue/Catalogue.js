@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Catalogue.css";
-import "../Base.css";
+import "../../Base.css";
 
 function Catalogue() {
   const [filters, setFilters] = useState({
