@@ -1,7 +1,13 @@
 services:
-  survivor:
+  survivor-back:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: "./back/Dockerfile"
     ports:
       - "3000:3000"
+  survivor-front:
+    build:
+      context: .
+      dockerfile: "./front/Dockerfile"
+    ports:
+      - "5000:5000"

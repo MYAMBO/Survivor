@@ -2,3 +2,5 @@
 .code
 node_modules
 dbKeys.json
+
+.env

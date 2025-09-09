@@ -1,7 +1,9 @@
 import './Dashboard.css' 
 
 function Dashboard() {
-  return (<div>dashboard</div>)
+  return (
+    <div className="corner-band">In Develepment</div>
+  )
 }
 
 export default Dashboard;

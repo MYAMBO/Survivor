@@ -1,7 +1,9 @@
 import './Opportunities.css'
 
 function Opportunities() {
-  return (<div>opportunities</div>)
+  return (
+    <div className="corner-band">In Develepment</div>
+  )
 }
 
 export default Opportunities;
