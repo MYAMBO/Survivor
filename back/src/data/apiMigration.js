@@ -28,10 +28,7 @@ async function fetchWithRetry(url, options, retries = 10, delay = 10) {
     }
 }
 
-async function getUserImage(id) {
-    console.log("Fetching image for user ID:", id);
-    const url = `${process.env.USERS_API_ENDPOINT}/${id}/image`;
-
+async function getBase64ImageAndMetadata(url) {
     const response = await fetchWithRetry(url, {
         method: "GET",
         headers: {
@@ -71,7 +68,7 @@ async function callMigration(){
         const data = await response.json();
 
         for (const x of data) {
-            const image = await getUserImage(x.id);
+            const image = await getBase64ImageAndMetadata(`${process.env.USERS_API_ENDPOINT}/${x.id}/image`);
 
             if (image === null) {
                 console.log(`Failed to fetch image for user ID: ${x.id}`);
@@ -119,7 +116,21 @@ async function callMigration(){
 
     if (responseEvents){
         const dataEvents = await responseEvents.json();
-        await dataEvents.forEach(x => createEvent(x.name, x.dates, x.location, x.description, x.event_type, x.target_audience, x.id))
+
+        for (const x of dataEvents) {
+            const image = await getBase64ImageAndMetadata(`${process.env.EVENTS_API_ENDPOINT}/${x.id}/image`);
+
+            if (image === null) {
+                console.log(`Failed to fetch image for event ID: ${x.id}`);
+                continue;
+            }
+
+            const {base64Image, metadata} = image;
+            x.image = base64Image;
+            x.metadata = metadata;
+        }
+
+        await dataEvents.forEach(x => createEvent(x.name, x.dates, x.location, x.description, x.event_type, x.target_audience, x.id, x.image, x.metadata))
     }
 
     const responseStartups = await fetchWithRetry(process.env.STARTUPS_API_ENDPOINT, {
