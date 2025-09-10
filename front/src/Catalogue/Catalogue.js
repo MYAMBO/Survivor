@@ -2,26 +2,19 @@ import React, { useState, useEffect } from "react";
 import "./Catalogue.css";
 import "../Base.css";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 function Catalogue() {
-  const [filters, setFilters] = useState({
-    maturity: "",
-    location: "",
-    sector: ""
-  });
-
+  const [filters, setFilters] = useState({ maturity: "", location: "", sector: "" });
   const [searchTerm, setSearchTerm] = useState("");
   const [startups, setStartups] = useState([]);
-  const [activeCardId, setActiveCardId] = useState(null); // id de la startup sélectionnée
+  const [selectedStartup, setSelectedStartup] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/startups", {
       method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
       credentials: "include",
     })
       .then((res) => (res.status === 401 ? [] : res.json()))
@@ -32,19 +25,15 @@ function Catalogue() {
       });
   }, []);
 
-  // fermer au Escape & bloquer scroll quand modal ouverte
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") setActiveCardId(null);
-    };
+    const onKey = (e) => e.key === "Escape" && setSelectedStartup(null);
     document.addEventListener("keydown", onKey);
-    if (activeCardId) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    document.body.style.overflow = selectedStartup ? "hidden" : "";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [activeCardId]);
+  }, [selectedStartup]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -59,48 +48,51 @@ function Catalogue() {
       (filters.location === "" || s.location.split(" ").pop() === filters.location) &&
       (filters.sector === "" || s.sector === filters.sector);
 
-    const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilters && matchesSearch;
+    return matchesFilters && s.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  // données uniques pour selects (inchangé)
   const uniqueMaturities = [...new Set(startups.map((s) => s.maturity))];
-  const uniqueLocations = [...new Set(startups.map((s) => s.location))];
+  const uniqueLocations = [...new Set(startups.map((s) => s.location.split(" ").pop()))];
   const uniqueSectors = [...new Set(startups.map((s) => s.sector))];
 
-  for (let i = 0; i < uniqueLocations.length; i++) {
-    const parts = uniqueLocations[i].split(" ");
-    uniqueLocations[i] = parts[parts.length - 1];
-  }
-  const trimedLocations = [];
-  for (let i = 0; i < uniqueLocations.length; i++) {
-    for (let j = 0; j < trimedLocations.length; j++) {
-      if (uniqueLocations[i] === trimedLocations[j]) break;
-      if (j === trimedLocations.length - 1) trimedLocations.push(uniqueLocations[i]);
+  const handleCardClick = async (startup) => {
+    try {
+      setLoadingDetails(true);
+      const res = await fetch("http://localhost:3000/startups/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id: startup.id }),
+      });
+
+      if (!res.ok) throw new Error("Erreur API");
+      const data = await res.json();
+      setSelectedStartup(data);
+    } catch (err) {
+      console.error("Erreur chargement détails:", err);
+      setSelectedStartup(null);
+    } finally {
+      setLoadingDetails(false);
     }
-    if (trimedLocations.length === 0) trimedLocations.push(uniqueLocations[i]);
-  }
-
-  const handleCardClick = (startup) => {
-    // on ne change pas la structure HTML des cards — juste on ouvre notre popup global
-    setActiveCardId(startup.id);
   };
-
-  const handleCloseModal = () => setActiveCardId(null);
-
-  const selectedStartup = startups.find((s) => s.id === activeCardId) || null;
 
   const exportPDF = (startup) => {
     if (!startup) return;
+
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text(startup.name || "Startup", 14, 16);
 
     const data = Object.entries(startup)
-      .filter(([k]) => !["id", "image"].includes(k))
-      .map(([k, v]) => [k, String(v === null || v === undefined ? "" : v)]);
+      .filter(([key]) => key !== "id") // on enlève l'id
+      .map(([key, value]) => {
+        if (key === "founders" && Array.isArray(value)) {
+          return [key, value.map(f => f.name).join(", ")];
+        }
+        return [key, value !== null && value !== undefined ? String(value) : ""];
+      });
 
-    doc.autoTable({
+    autoTable(doc, {
       head: [["Champ", "Valeur"]],
       body: data,
       startY: 24,
@@ -125,20 +117,19 @@ function Catalogue() {
       </div>
 
       <div className="filters" style={{ textAlign: "center", marginBottom: "20px" }}>
-        <br />
         <select name="maturity" value={filters.maturity} onChange={handleFilterChange}>
           <option value="">All Maturities</option>
-          {uniqueMaturities.map((m) => (<option key={m} value={m}>{m}</option>))}
+          {uniqueMaturities.map((m) => <option key={m} value={m}>{m}</option>)}
         </select>
 
         <select name="location" value={filters.location} onChange={handleFilterChange}>
           <option value="">All Locations</option>
-          {trimedLocations.map((loc) => (<option key={loc} value={loc}>{loc}</option>))}
+          {uniqueLocations.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
         </select>
 
         <select name="sector" value={filters.sector} onChange={handleFilterChange}>
           <option value="">All Sectors</option>
-          {uniqueSectors.map((sec) => (<option key={sec} value={sec}>{sec}</option>))}
+          {uniqueSectors.map((sec) => <option key={sec} value={sec}>{sec}</option>)}
         </select>
       </div>
 
@@ -146,7 +137,6 @@ function Catalogue() {
         <div className="ag-courses_box">
           {filteredStartups.length > 0 ? (
             filteredStartups.map((startup) => (
-              // LA CARD : structure inchangée (seul on ajoute un onClick sur la wrapper)
               <div
                 key={startup.id}
                 className="ag-courses_item"
@@ -160,6 +150,7 @@ function Catalogue() {
                     <p><strong>Sector:</strong> {startup.sector}</p>
                     <p><strong>Maturity:</strong> {startup.maturity}</p>
                     <p><strong>Location:</strong> {startup.location}</p>
+                    {startup.description && <p><strong>Description:</strong> {startup.description}</p>}
                   </div>
                 </div>
               </div>
@@ -170,42 +161,37 @@ function Catalogue() {
         </div>
       </div>
 
-      {/* POPUP GLOBAL (séparée — NE PAS mettre dans la card) */}
       {selectedStartup && (
-        <div className="global-modal-overlay" onClick={handleCloseModal}>
+        <div className="global-modal-overlay" onClick={() => setSelectedStartup(null)}>
           <div className="global-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseModal} aria-label="Close">×</button>
+            <button className="modal-close" onClick={() => setSelectedStartup(null)} aria-label="Close">×</button>
 
             <div className="modal-header">
               <h3>{selectedStartup.name}</h3>
             </div>
 
             <div className="modal-body">
-              {selectedStartup.image ? (
-                <img src={selectedStartup.image} alt={selectedStartup.name} className="modal-image" />
+              {loadingDetails ? (
+                <p>Chargement...</p>
               ) : (
-                <div className="modal-image placeholder">No image</div>
+                <div className="modal-info">
+                  {Object.entries(selectedStartup)
+                    .filter(([key]) => key !== "id")
+                    .map(([key, value]) => (
+                      <p key={key}>
+                        <strong>{key}:</strong>{" "}
+                        {key === "founders" && Array.isArray(value)
+                          ? value.map(f => f.name).join(", ")
+                          : String(value)}
+                      </p>
+                    ))}
+                </div>
               )}
-
-              <div className="modal-info">
-                <p><strong>Sector:</strong> {selectedStartup.sector}</p>
-                <p><strong>Maturity:</strong> {selectedStartup.maturity}</p>
-                <p><strong>Location:</strong> {selectedStartup.location}</p>
-                {selectedStartup.description && (
-                  <p><strong>Description:</strong> {selectedStartup.description}</p>
-                )}
-
-                {Object.entries(selectedStartup).map(([key, value]) =>
-                  !["id","name","sector","maturity","location","description","image","email"].includes(key) ? (
-                    <p key={key}><strong>{key}:</strong> {String(value)}</p>
-                  ) : null
-                )}
-              </div>
             </div>
 
             <div className="modal-actions">
               <button className="btn-export" onClick={() => exportPDF(selectedStartup)}>
-                Exporter en PDF
+                Export in PDF
               </button>
             </div>
           </div>
