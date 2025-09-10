@@ -4,6 +4,9 @@ const {createStartup, getIdStartupByEmail} = require("./startupsManagement")
 const {createPartner} = require("./partnersManagement");
 const {createEvent} = require("./eventsManagement")
 const {createNews} = require("./newsManagement")
+const bcrypt = require('bcrypt');
+const path = require("path");
+const fs = require("fs");
 
 async function fetchWithRetry(url, options, retries = 10, delay = 10) {
     for (let attempt = 1; attempt <= retries; attempt++) {
@@ -25,6 +28,36 @@ async function fetchWithRetry(url, options, retries = 10, delay = 10) {
     }
 }
 
+async function getUserImage(id) {
+    console.log("Fetching image for user ID:", id);
+    const url = `${process.env.USERS_API_ENDPOINT}/${id}/image`;
+
+    const response = await fetchWithRetry(url, {
+        method: "GET",
+        headers: {
+            "X-Group-Authorization": process.env.API_KEY,
+        },
+    }, 5, 500);
+
+    if (!response) {
+        return null;
+    }
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    const metadata = {
+        "accept-ranges": response.headers.get("accept-ranges"),
+        "content-length": response.headers.get("content-length"),
+        "content-type": response.headers.get("content-type"),
+        "date": response.headers.get("date"),
+        "etag": response.headers.get("etag"),
+        "last-modified": response.headers.get("last-modified"),
+    };
+
+    const base64Image = buffer.toString("base64");
+
+    return {base64Image, metadata};
+}
 
 async function callMigration(){
     const response = await fetchWithRetry(process.env.USERS_API_ENDPOINT, {
@@ -36,7 +69,21 @@ async function callMigration(){
 
     if (response){
         const data = await response.json();
-        await data.forEach(x => createUser(x.email, x.name, x.role, "0123456"))
+
+        for (const x of data) {
+            const image = await getUserImage(x.id);
+
+            if (image === null) {
+                console.log(`Failed to fetch image for user ID: ${x.id}`);
+                continue;
+            }
+
+            const {base64Image, metadata} = image;
+            x.image = base64Image;
+            x.metadata = metadata;
+        }
+        const hash = await bcrypt.hash("0123456", 10);
+        await data.forEach(x => createUser(x.email, x.name, x.role, hash, x.image, x.metadata))
     }
 
     const responseInvestors = await fetchWithRetry(process.env.INVESTORS_API_ENDPOINT, {

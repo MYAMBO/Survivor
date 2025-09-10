@@ -32,6 +32,7 @@ function Profile() {
         <div className="profile-info">
           <h1>{profile.name}</h1>
           <h2>{profile.role}</h2>
+          <img src={profile.image} alt="User profile" />
         </div>
       </header>
 
