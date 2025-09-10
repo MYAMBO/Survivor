@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {GetAllUsersData} = require("../data/usersManagement");
+const {GetAllUsersData, deleteUser} = require("../data/usersManagement");
 const {authenticateTokenAdmin} = require('../middleware/authMiddleware');
 
 /**
@@ -47,6 +47,18 @@ router.get('/admin/users', authenticateTokenAdmin, async (req, res) => {
         res.status(400).send('{"message":"An error occurs."}');
     else
         res.status(200).send(returnVal);
+});
+
+router.delete('/admin/user', authenticateTokenAdmin, async (req, res) => {
+    const {id} = req.body;
+    if (!id) {
+        return res.status(400).send('{"message":"User ID is required."}');
+    }
+    if (id === req.user.id) {
+        return res.status(400).send('{"message":"You cannot delete your own account."}');
+    }
+    await deleteUser(id);
+    res.status(200).send(`User with ID ${id} deleted successfully.`);
 });
 
 module.exports = router;
