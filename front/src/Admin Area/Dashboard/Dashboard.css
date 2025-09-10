@@ -138,3 +138,16 @@
   border-radius: 8px;
   background-color: rgb(240,240,240);
 }
+
+.delete-user-button {
+  background-color: red;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.delete-user-button:hover {
+  transform: scale(1.1);
+}

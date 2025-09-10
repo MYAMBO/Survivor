@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Wheel from "./Wheel"; // ton composant roue
-import UserItem from "./UserItem"; // ton composant roue
+import UserItem from "./UserItem/UserItem"; // ton composant roue
 
 function GetUserList() {
   const [users, setUsers] = useState([]);
