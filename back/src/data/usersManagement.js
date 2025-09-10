@@ -43,8 +43,25 @@ async function createUser(email, name, role, password, image = null, metadata = 
     return 0;
 }
 
-async function GetUserDataById(tableName, id) {
-    const snapshot = await db.ref(tableName).once('value');
+async function GetAllUsersData() {
+    const snapshot = await db.ref('users').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const users = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(users, null, 0)
+        const myObj = JSON.parse(myStr)
+        return myObj;
+    } else {
+        console.log("Not found")
+        return null;
+    }
+}
+
+async function GetUserDataById(id) {
+    const snapshot = await db.ref('users').once('value');
     if (snapshot.exists()) {
         const obj = snapshot.val()
         const users = Object.entries(obj).map(([id, data]) => ({
@@ -55,6 +72,7 @@ async function GetUserDataById(tableName, id) {
         const myObj = JSON.parse(myStr)
         for (const user of myObj){
             if (user.id === id){
+                console.log(user);
                 return user;
             }
         }
@@ -63,4 +81,4 @@ async function GetUserDataById(tableName, id) {
     }
 }
 
-module.exports = {createUser, GetUserDataById}
+module.exports = {createUser, GetUserDataById, GetAllUsersData}

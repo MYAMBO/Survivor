@@ -129,13 +129,11 @@ function Dashboard() {
         </div>
       </div>
       <div className="user-wrapper">
-        <div className="user-list">
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {users.map((user, index) => (
-              <UserItem key={index} user={user} />
-            ))}
-          </ul>
-        </div>
+        <ul className="user-list" style={{ listStyle: "none", padding: 0 }}>
+          {users.map((user, index) => (
+            <UserItem key={index} user={user} />
+          ))}
+        </ul>
       </div>
     </div>
   );

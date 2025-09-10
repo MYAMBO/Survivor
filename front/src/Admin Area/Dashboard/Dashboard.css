@@ -115,3 +115,26 @@
   min-height: fit-content;
   padding: 10px;
 }
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px !important;
+  gap: 10px;
+}
+
+.user-element {
+  border: none;
+  border-radius: 15px;
+  padding: 12px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.user-element-opened {
+  margin-top: 8px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(240,240,240);
+}
