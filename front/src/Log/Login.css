@@ -5,7 +5,7 @@
     justify-content: center;
     height: fit-content;
     min-height: 100%;
-    background: linear-gradient(35deg, var(--color-magenta), var(--color-red));
+    background: linear-gradient(35deg, var(--color-secondary-secondary), var(--color-primary));
     font: menu;
     font-weight: bold;
 
@@ -20,12 +20,12 @@
 }
 
 .login-container.investor-bg {
-    background: linear-gradient(75deg, var(--color-purple), var(--color-pink));
+    background: linear-gradient(75deg, var(--color-tertiary-primary), var(--color-secondary));
     transition: smooth;
 }
 
 .login-container.founder-bg {
-    background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
+    background: linear-gradient(75deg, var(--color-secondary-secondary), var(--color-primary));
 }
 
 .login-form-section {
@@ -66,7 +66,7 @@
 
 .signup-form button {
     padding: 12px;
-    background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-tertiary-primary));
     color: white;
     font-size: 1.1rem;
     font-weight: bold;
@@ -79,7 +79,7 @@
 
 .signup-form button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
+    background: linear-gradient(135deg, var(--color-primary-secondary), var(--color-tertiary-primary));
 }
 
 .login-form {
@@ -105,7 +105,7 @@
 
 .login-form-button {
     padding: 12px;
-    background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-tertiary-primary));
     color: white;
     font : var(--font-body);
     font-size: 1.1rem;
@@ -151,7 +151,7 @@
 .toggle-container button.active {
     color: white;
     .login-container {
-        background: linear-gradient(75deg, var(--color-magenta), var(--color-red));
+        background: linear-gradient(75deg, var(--color-secondary-secondary), var(--color-primary));
     }
 }
   
@@ -161,7 +161,7 @@
     bottom: 5px;
     width: 50%;
     border-radius: 30px;
-    background-color: var(--color-red-pink);
+    background-color: var(--color-primary);
     transition: transform 0.3s ease;
     z-index: 1;
 }
@@ -192,7 +192,7 @@
     top: 20px;
     right: 20px;
     padding: 12px;
-    background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary-primary));
     color: white;
     font: var(--font-body);
     font-size: 1.1rem;
@@ -229,7 +229,7 @@
 
 .back-home .home-button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple-light));
+    background: linear-gradient(135deg, var(--color-primary-secondary), var(--color-tertiary-primary));
 }
 
 

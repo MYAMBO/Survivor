@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 const {createUser} = require("../data/usersManagement");
 
@@ -69,7 +70,8 @@ const {createUser} = require("../data/usersManagement");
  */
 router.post('/createUser', async (req, res) => {
     const {email, name, role, password} = req.body;
-    const returnVal = await createUser(email, name, role, password);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const returnVal = await createUser(email, name, role, hashedPassword);
     if (returnVal === 1)
         res.status(400).send('{"message":"An error occurs."}');
     else if (returnVal === 2)

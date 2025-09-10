@@ -1,6 +1,6 @@
 const db = require("../db/firebaseSettings");
 
-async function createInvestor(email) {
+async function createInvestor(email, name="", legal_status="", address="", phone="", created_at="", description="", investor_type="", investment_focus="") {
     if ([email].some(x => x == null)) {
         console.log("Error here");
         return 1;
@@ -22,15 +22,15 @@ async function createInvestor(email) {
     }
     const id = db.ref().push().key;
     await db.ref('investors' + '/' + id).set({
-        name:"",
-        legal_status:"",
-        address:"",
+        name:name,
+        legal_status:legal_status,
+        address:address,
         email:email,
-        phone:"",
-        created_at:"",
-        description:"",
-        investor_type:"",
-        investment_focus:""
+        phone:phone,
+        created_at:created_at,
+        description:description,
+        investor_type:investor_type,
+        investment_focus:investment_focus
     });
     return id;
 }

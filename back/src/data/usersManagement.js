@@ -2,7 +2,7 @@ const db = require("../db/firebaseSettings");
 const {createInvestor} = require("./investorsManagement");
 const createFounder = require("./foundersManagement");
 
-async function createUser(email, name, role, password) {
+async function createUser(email, name, role, password, image = null, metadata = null) {
     if ([email, name, role, password].some(x => x == null)) {
         console.log("Error here");
         return 1;
@@ -36,7 +36,9 @@ async function createUser(email, name, role, password) {
         role: role,
         founder_id: founderId,
         investor_id: investorId,
-        password: password
+        password: password,
+        image: `data:image/png;base64,${image}`,
+        metadata: metadata
     });
     return 0;
 }
