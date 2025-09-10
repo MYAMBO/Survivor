@@ -1,10 +1,45 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Wheel from "./Wheel"; // ton composant roue
+import UserItem from "./UserItem"; // ton composant roue
+
+function GetUserList() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/admin/users", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json" },
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.status === 401) return [];
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          console.error("Données reçues invalides :", data);
+          setUsers([]);
+        }
+      })
+      .catch(err => {
+        console.error("Erreur fetch:", err);
+        setUsers([]);
+      });
+  }, []);
+
+  return users;
+}
 
 function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [startups, setStartups] = useState([]);
+
+  const users = GetUserList();
 
   useEffect(() => {
     fetch("http://localhost:3000/startups", {
@@ -81,17 +116,26 @@ function Dashboard() {
       </div>
       <div className="section-wrapper">
         <div className="startup-section">
-        <h3>By Maturity</h3>
-        <Wheel slices={maturitySlices} centerLabel={total} />
+          <h3>By Maturity</h3>
+          <Wheel slices={maturitySlices} centerLabel={total} />
+        </div>
+        <div className="startup-section">
+          <h3>By Sector</h3>
+          <Wheel slices={sectorSlices} centerLabel={total} />
+        </div>
+        <div className="startup-section">
+          <h3>By Country</h3>
+          <Wheel slices={countrySlices} centerLabel={total} />
+        </div>
       </div>
-      <div className="startup-section">
-        <h3>By Sector</h3>
-        <Wheel slices={sectorSlices} centerLabel={total} />
-      </div>
-      <div className="startup-section">
-        <h3>By Country</h3>
-        <Wheel slices={countrySlices} centerLabel={total} />
-      </div>
+      <div className="user-wrapper">
+        <div className="user-list">
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {users.map((user, index) => (
+              <UserItem key={index} user={user} />
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
