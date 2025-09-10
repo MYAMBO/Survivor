@@ -51,10 +51,13 @@ async function GetAllUsersData() {
     const snapshot = await db.ref('users').once('value');
     if (snapshot.exists()) {
         const obj = snapshot.val()
-        const users = Object.entries(obj).map(([id, data]) => ({
-            id,
-            ...data
-        }));
+        const users = Object.entries(obj).map(([id, data]) => {
+            const { password, ...rest } = data;
+            return {
+                id,
+                ...data
+            };
+        });
         const myStr = JSON.stringify(users, null, 0)
         const myObj = JSON.parse(myStr)
         return myObj;
