@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
@@ -15,6 +15,14 @@ import './App.css';
 
 function App() {  
   const [role, setRole] = useState('none');
+
+  function HeaderWrapper() {
+    const location = useLocation();
+    const hideHeaderPaths = ['/login', '/signup'];
+
+    return hideHeaderPaths.includes(location.pathname) ? null : <Header />;
+  }
+
 
   useEffect(() => {
     fetch("http://localhost:3000/profile", {
@@ -47,6 +55,7 @@ function App() {
 
     return (
       <BrowserRouter>
+        <HeaderWrapper/>
         {showHeader && <Header />}
         <Routes>
           <Route path='/' element={<Home/>}/>
