@@ -136,7 +136,9 @@ router.patch('/profile/password', authenticateToken, async (req, res) => {
     if (!password) {
         return res.status(400).json({ message: "Password is required." });
     }
-    await db.ref('users/' + req.user.id).update({ password: password });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.ref('users/' + req.user.id).update({ password: hashedPassword });
     res.status(200).json({ message: "Password updated successfully." });
 });
 
