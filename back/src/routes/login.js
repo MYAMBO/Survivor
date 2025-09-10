@@ -1,7 +1,8 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { activeTokens } = require('../utils/users');
-const { findUserDataByNameOrEmail } = require('../data/loginManagement');
+const { findUserDataByEmail } = require('../data/loginManagement');
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET;
@@ -41,11 +42,16 @@ const SECRET_KEY = process.env.JWT_SECRET;
  *         description: Invalid identifiers
  */
 router.post('/login', async (req, res) => {
-    const { name, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await findUserDataByNameOrEmail('users', name)
+    const user = await findUserDataByEmail('users', email)
 
-    if (!user || password !== user.password)
+    if (!user)
+        return res.status(400).json({ message: 'Invalid credentials' });
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match)
         return res.status(400).json({ message: 'Invalid credentials' });
 
     const id = user.id
