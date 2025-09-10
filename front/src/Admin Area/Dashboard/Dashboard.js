@@ -77,7 +77,8 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <h2>Dashboard</h2>
-      <div className="startup-section">
+      <div className="section-wrapper">
+        <div className="startup-section">
         <h3>By Maturity</h3>
         <Wheel slices={maturitySlices} centerLabel={total} />
       </div>
@@ -88,6 +89,7 @@ function Dashboard() {
       <div className="startup-section">
         <h3>By Country</h3>
         <Wheel slices={countrySlices} centerLabel={total} />
+      </div>
       </div>
     </div>
   );
