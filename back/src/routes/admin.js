@@ -6,9 +6,9 @@ const {authenticateTokenAdmin} = require('../middleware/authMiddleware');
 /**
  * @swagger
  * /admin/users:
- *   post:
- *     summary: Get all users data
- *     description: Returns the list of all users stored in the system.
+ *   get:
+ *     summary: Get all users data (raw)
+ *     description: Returns the list of all the users.
  *     tags:
  *       - Admin
  *     responses:
@@ -30,16 +30,43 @@ const {authenticateTokenAdmin} = require('../middleware/authMiddleware');
  *                   email:
  *                     type: string
  *                     example: string
- *       400:
- *         description: Error occurred while retrieving users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "An error occurs."
+ *                   role:
+ *                     type: string
+ *                     example: string
+ *                   founder_id:
+ *                     type: string
+ *                     example: string
+ *                   investor_id:
+ *                     type: string
+ *                     example: string
+ *                   image:
+ *                     type: string
+ *                     example: string
+ *                   metadata:
+ *                     type: object
+ *                     properties:
+ *                       accept-ranges:
+ *                         type: string
+ *                         example: string
+ *                       content-length:
+ *                         type: string
+ *                         example: string
+ *                       content-type:
+ *                         type: string
+ *                         example: string
+ *                       date:
+ *                         type: string
+ *                         example: string
+ *                       etag:
+ *                         type: string
+ *                         example: string
+ *                       last-modified:
+ *                         type: string
+ *                         example: string
+ *       404:
+ *         description: No users found.
+ *       500:
+ *         description: Server error while retrieving users.
  */
 router.get('/admin/users', authenticateTokenAdmin, async (req, res) => {
     const returnVal = await GetAllUsersData();
