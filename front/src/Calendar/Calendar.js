@@ -39,20 +39,29 @@ const CustomToolbar = (props) => {
 export default function MyCalendar() {
   const [events, setEvents] = useState([]);
 
-  const handleRangeChange = (range, view) => {
+  const handleRangeChange = async (range, view) => {
     let start, end;
 
     if (Array.isArray(range)) {
       start = range[0];
       end = range[range.length - 1];
+
     } else if (range.start && range.end) {
       start = range.start;
       end = range.end;
+    
     } else {
       start = startOfWeek(new Date());
       end = endOfWeek(new Date());
     }
-    setEvents(updateEvents(start, end));
+
+    try {
+      const newEvents = await updateEvents(start, end);
+      setEvents(Array.isArray(newEvents) ? newEvents : []);
+    } catch (error) {
+      console.error("Failed to update events:", error);
+      setEvents([]);
+    }
   };
 
   return (

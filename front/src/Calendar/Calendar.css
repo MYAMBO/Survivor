@@ -82,7 +82,7 @@
 .toolbar-navigation-button {
     margin: auto 0;
     height: fit-content;
-    padding: 5px 10px !important;
+    padding: 5px 10px 8px 10px !important;
 }
 
 .time-period-wrapper {
@@ -105,4 +105,30 @@
     background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
     color: white;
     transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+    .toolbar-wrapper {
+    }
+
+    .time-period-wrapper {
+        grid-column: 3;
+        display: none;
+    }
+
+    .today-wrapper {
+        grid-column: 1;
+        display: none;
+    }
+
+    .toolbar-navigation-wrapper {
+        grid-column: 2;
+        display: flex;
+        justify-content: space-between;
+        min-width: 100% !important;
+        
+        span {
+            font-size: 1.5rem;
+        }
+    }
 }
