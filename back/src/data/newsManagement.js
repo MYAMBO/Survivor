@@ -1,6 +1,6 @@
 const db = require("../db/firebaseSettings");
 
-async function createNews(news_date, location, title, category, old_id, startup_id="", description="") {
+async function createNews(news_date, location, title, category, old_id, startup_id="", description="", image = null, metadata = null) {
     if ([news_date, location, title, category, startup_id, description, old_id].some(x => x == null)) {
         console.log("Error here");
         return 1;
@@ -29,7 +29,9 @@ async function createNews(news_date, location, title, category, old_id, startup_
         category:category,
         startup_id:startup_id,
         description:description,
-        old_id:old_id
+        old_id:old_id,
+        image:image,
+        metadata:metadata
     });
     return id;
 }

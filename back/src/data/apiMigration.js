@@ -212,14 +212,23 @@ async function callMigration(){
                 },
             }, 10, 200);
 
-            if (!responseStartupById) {
+            if (responseStartupById) {
+                const dataStartupById = await responseStartupById.json();
+                x.startup_id = await getIdStartupByEmail(dataStartupById.email);
+            }
+
+            const image = await getBase64ImageAndMetadata(`${process.env.NEWS_API_ENDPOINT}/${x.id}/image`);
+
+            if (image === null) {
+                console.log(`Failed to fetch image for news ID: ${x.id}`);
                 continue;
             }
 
-            const dataStartupById = await responseStartupById.json();
-            x.startup_id = await getIdStartupByEmail(dataStartupById.email);
+            const {base64Image, metadata} = image;
+            x.image = base64Image;
+            x.metadata = metadata;
         }
-        await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.id, x.startup_id, x.description))
+        await dataNews.forEach(x => createNews(x.news_date, x.location, x.title, x.category, x.id, x.startup_id, x.description, x.image, x.metadata))
     }
 }
 
