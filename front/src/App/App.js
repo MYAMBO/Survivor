@@ -49,14 +49,9 @@ function App() {
       })
     }, [])
 
-    const hideHeaderPaths = ['/login', '/signup'];
-    const currentPath = window.location.pathname;
-    const showHeader = !hideHeaderPaths.includes(currentPath);
-
     return (
       <BrowserRouter>
         <HeaderWrapper/>
-        {showHeader && <Header />}
         <Routes>
           <Route path='/' element={<Home/>}/>
           {role === 'none' && (

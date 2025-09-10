@@ -76,7 +76,9 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h2>Dashboard</h2>
+      <div className="title-wrapper">
+        <h2>Dashboard</h2>
+      </div>
       <div className="section-wrapper">
         <div className="startup-section">
         <h3>By Maturity</h3>
