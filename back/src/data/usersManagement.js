@@ -43,6 +43,10 @@ async function createUser(email, name, role, password, image = null, metadata = 
     return 0;
 }
 
+async function deleteUser(id) {
+    await db.ref('users' + '/' + id).remove();
+}
+
 async function GetAllUsersData() {
     const snapshot = await db.ref('users').once('value');
     if (snapshot.exists()) {
@@ -81,4 +85,4 @@ async function GetUserDataById(id) {
     }
 }
 
-module.exports = {createUser, GetUserDataById, GetAllUsersData}
+module.exports = {createUser, deleteUser, GetUserDataById, GetAllUsersData}
