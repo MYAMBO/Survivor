@@ -49,7 +49,7 @@ router.get('/admin/users', authenticateTokenAdmin, async (req, res) => {
         res.status(200).send(returnVal);
 });
 
-router.delete('/admin/user', authenticateTokenAdmin, async (req, res) => {
+router.delete('/admin/deleteUser', authenticateTokenAdmin, async (req, res) => {
     const {id} = req.body;
     if (!id) {
         return res.status(400).send('{"message":"User ID is required."}');
