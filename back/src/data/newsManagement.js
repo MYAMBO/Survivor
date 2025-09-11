@@ -36,4 +36,21 @@ async function createNews(news_date, location, title, category, old_id, startup_
     return id;
 }
 
-module.exports = {createNews}
+async function getNewsList() {
+    const snapshot = await db.ref("news").once("value");
+    let newsList = [];
+    if (snapshot.exists()) {
+        const obj = snapshot.val();
+        const events = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+
+        newsList.sort((a, b) => new Date(a.dates) - new Date(b.dates));
+    } else {
+        console.log("No events found");
+    }
+    return eventsList;
+}
+
+module.exports = {createNews, getNewsList}
