@@ -69,7 +69,7 @@ function Profile() {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ password: newPassword }),
+        body: JSON.stringify({ "password": newPassword }),
         credentials: "include"
       })
         .then(res => {
@@ -85,8 +85,10 @@ function Profile() {
 
   if (!profile) {
     return (
-      <div className="profile-loading">
-        <p>Chargement du profil...</p>
+      <div className='profile-container'>
+        <div className="profile-loading">
+          <p>Chargement du profil...</p>
+        </div>
       </div>
     )
   }
