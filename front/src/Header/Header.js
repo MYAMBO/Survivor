@@ -28,7 +28,6 @@ function Header() {
         {(role === "investor" || role === "admin" || role === "founder") && (
           <>
           <Link to="/messaging" onClick={closeAllMenus}>Messaging</Link>
-          <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
           </>
         )}
         {role === "admin" && (

@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-import Opportunities from '../Startup Area/Opportunities/Opportunities'
 import Messaging from '../Messaging/Messaging'
 import Dashboard from '../Admin Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
@@ -71,7 +70,6 @@ function App() {
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/profile' element={<Profile/>}/>
               <Route path='/messaging' element={<Messaging/>}/>
-              <Route path='/opportunities' element={<Opportunities/>}/>
             </>
           )}
         </Routes>
