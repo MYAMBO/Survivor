@@ -1,42 +1,100 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState} from "react";
 import "./Login.css";
+import "./Popup.css";
 
-function SignUp({ onSignUp }) {
+export async function fetchAndStoreRole() {
+    try {
+      const res = await fetch("http://localhost:3000/profile", {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      });
+  
+      if (res.status === 401) {
+        localStorage.setItem("role", "none");
+        return "none";
+      }
+  
+      const data = await res.json();
+      if (data && data.role) {
+        localStorage.setItem("role", data.role);
+        return data.role;
+      }
+  
+      localStorage.setItem("role", "none");
+      return "none";
+    } catch (err) {
+      console.error("Erreur fetch:", err);
+      localStorage.setItem("role", "none");
+      return "none";
+    }
+  }
+  
+
+  function SignUp({ onSignUp }) {
     const [isFunder, setIsFunder] = useState(true);
-
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name : "",
-        email: "",
-        role : "",
-        password: "",
-        confirmPassword: ""
+      name : "",
+      email: "",
+      role : "",
+      password: "",
+      confirmPassword: ""
     });
-
+  
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
-
-        fetch("http://localhost:3000/createUser", {
+      e.preventDefault();
+  
+      if (formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+  
+      fetch("http://localhost:3000/createUser", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData),
+      })
+        .then(async res => {
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Erreur inconnue");
+          if (data.error) throw new Error(data.error);
+          return data;
+        })
+        .then(async data => {
+          console.log("Inscription réussie :", data);
+          const loginRes = await fetch("http://localhost:3000/login", {
             method: "POST",
             headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
+              "Accept": "application/json",
+              "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify({
-                ...formData,
-                password: formData.password
-            }),
+              email: formData.email,
+              password: formData.password
+            })
+          });
+          if (!loginRes.ok) throw new Error("Échec de la connexion automatique");
+          await fetchAndStoreRole();
+          navigate("/");
+          window.location.reload();
         })
-        .then(res => res.json())
-        .then(data => {console.log("Inscription réussie :", data);})
-        .catch(err => {console.error("Erreur :", err);});
-    }
-
+        
+        .catch(err => {
+          console.error("Erreur :", err.message);
+          setError(err.message);
+        });
+    };
+  
     const handleChangeUser = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -110,6 +168,15 @@ function SignUp({ onSignUp }) {
             <p className="signup-link">
                 Already have an account? <Link to="/login">Log in</Link>
             </p>
+            {error && (
+            <div className="popup-overlay">
+                <div className="popup">
+                <h3>Error</h3>
+                <p>{error}</p>
+                <button onClick={() => setError(false)}>Ok</button>
+                </div>
+            </div>
+            )}
         </div>
     );
 }

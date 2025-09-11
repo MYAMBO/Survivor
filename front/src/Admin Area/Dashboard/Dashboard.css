@@ -1,0 +1,153 @@
+.dashboard {
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-secondary));
+    width: 100%;
+    min-height: 100%;
+    height: fit-content;
+}
+
+.wheel-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+  .wheel {
+    --size: 220px;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: conic-gradient(#ddd 0deg 360deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wheel-center {
+    width: 56%;
+    height: 56%;
+    border-radius: 50%;
+    background: #0f1724;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: inset 0 2px 8px rgba(255,255,255,0.03);
+  }
+
+  .wheel-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.95rem;
+  }
+  
+  .wheel-legend-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    white-space: nowrap;
+  }
+  
+  .wheel-legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+
+  .wheel-center .big {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  
+  .wheel-center .small {
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 520px) {
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .startup-section {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .wheel { --size: 160px; }
+    .wheel-legend { font-size: 0.9rem; }
+  }
+
+.title-wrapper {
+  padding-top: 70px;
+
+  h2 {
+    padding-top: 0;
+  }
+}
+
+.section-wrapper{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  margin-top: 40px;
+  padding-bottom: 40px;
+  gap: 20px;
+  width: 100%;
+  height: fit-content;
+}
+
+.startup-section {
+  display: grid;
+  text-align: center;
+  background: white;
+  width: fit-content;
+  border-radius: 30px;
+  min-height: fit-content;
+  padding: 10px;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px !important;
+  gap: 10px;
+}
+
+.user-element {
+  border: none;
+  border-radius: 15px;
+  padding: 12px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.user-element-opened {
+  margin-top: 8px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(240,240,240);
+}
+
+.delete-user-button {
+  background-color: red;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.delete-user-button:hover {
+  transform: scale(1.1);
+}

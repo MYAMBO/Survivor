@@ -15,7 +15,9 @@ const loginRoutes = require('./src/routes/login');
 const logoutRoutes = require('./src/routes/logout');
 const startupsRoutes = require('./src/routes/startups');
 const userRoutes = require('./src/routes/users');
-const startupsProfileRoutes = require('./src/routes/startupsProfile')
+const startupsProfileRoutes = require('./src/routes/startupsProfile');
+const eventsRoutes = require('./src/routes/events');
+const adminRoutes = require('./src/routes/admin');
 
 const options = {
   definition: {
@@ -51,6 +53,8 @@ app.use('/', logoutRoutes);
 app.use('/', startupsRoutes);
 app.use('/', userRoutes);
 app.use('/', startupsProfileRoutes);
+app.use('/', eventsRoutes);
+app.use('/', adminRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');
@@ -66,10 +70,10 @@ app.use((req, res) => {
     res.status(404).send('Not Found');
 });
 
-//schedule.scheduleJob('0 */10 * * * *', async () => {
-//    console.log('Migrated API');
-//    await callMigration();
-//});
+schedule.scheduleJob('0 */10 * * * *', async () => {
+   console.log('Migrated API');
+   await callMigration();
+});
 
 console.log(`App starting on port ${port}`);
 console.log(`Swagger Documentation: http://localhost:${port}/api-docs`);

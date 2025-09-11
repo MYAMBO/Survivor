@@ -2,7 +2,7 @@ const db = require("../db/firebaseSettings");
 const {createInvestor} = require("./investorsManagement");
 const createFounder = require("./foundersManagement");
 
-async function createUser(email, name, role, password) {
+async function createUser(email, name, role, password, image = null, metadata = null) {
     if ([email, name, role, password].some(x => x == null)) {
         console.log("Error here");
         return 1;
@@ -36,13 +36,39 @@ async function createUser(email, name, role, password) {
         role: role,
         founder_id: founderId,
         investor_id: investorId,
-        password: password
+        password: password,
+        image: `data:image/png;base64,${image}`,
+        metadata: metadata
     });
     return 0;
 }
 
-async function GetUserDataById(tableName, id) {
-    const snapshot = await db.ref(tableName).once('value');
+async function deleteUser(id) {
+    await db.ref('users' + '/' + id).remove();
+}
+
+async function GetAllUsersData() {
+    const snapshot = await db.ref('users').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const users = Object.entries(obj).map(([id, data]) => {
+            const { password, ...rest } = data;
+            return {
+                id,
+                ...data
+            };
+        });
+        const myStr = JSON.stringify(users, null, 0)
+        const myObj = JSON.parse(myStr)
+        return myObj;
+    } else {
+        console.log("Not found")
+        return null;
+    }
+}
+
+async function GetUserDataById(id) {
+    const snapshot = await db.ref('users').once('value');
     if (snapshot.exists()) {
         const obj = snapshot.val()
         const users = Object.entries(obj).map(([id, data]) => ({
@@ -61,4 +87,4 @@ async function GetUserDataById(tableName, id) {
     }
 }
 
-module.exports = {createUser, GetUserDataById}
+module.exports = {createUser, deleteUser, GetUserDataById, GetAllUsersData}
