@@ -41,7 +41,7 @@ async function getNewsList() {
     let newsList = [];
     if (snapshot.exists()) {
         const obj = snapshot.val();
-        const events = Object.entries(obj).map(([id, data]) => ({
+        newsList = Object.entries(obj).map(([id, data]) => ({
             id,
             ...data
         }));
@@ -50,7 +50,7 @@ async function getNewsList() {
     } else {
         console.log("No events found");
     }
-    return eventsList;
+    return newsList;
 }
 
 module.exports = {createNews, getNewsList}
