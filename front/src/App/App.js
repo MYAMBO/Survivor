@@ -1,12 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
 import Messaging from '../Messaging/Messaging'
-import Dashboard from '../Startup Area/Dashboard/Dashboard'
+import Dashboard from '../Admin Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
-import MyCalendar from '../Calendar/Calendar';
-import Catalogue from '../Catalogue/Catalogue';
+import Catalogue from '../Startup Area/Catalogue/Catalogue';
+import MyCalendar from '../Startup Area/Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
@@ -16,6 +16,14 @@ import './App.css';
 function App() {  
   const [role, setRole] = useState('none');
 
+  function HeaderWrapper() {
+    const location = useLocation();
+    const hideHeaderPaths = ['/login', '/signup'];
+
+    return hideHeaderPaths.includes(location.pathname) ? null : <Header />;
+  }
+
+  
   useEffect(() => {
     fetch("http://localhost:3000/profile", {
       method: "GET",
@@ -41,19 +49,16 @@ function App() {
       })
     }, [])
 
-    const hideHeaderPaths = ['/login', '/signup'];
-    const currentPath = window.location.pathname;
-    const showHeader = !hideHeaderPaths.includes(currentPath);
-
     return (
       <BrowserRouter>
-        {showHeader && <Header />}
+        <HeaderWrapper/>
         <Routes>
           <Route path='/' element={<Home/>}/>
           {role === 'none' && (
             <>
               <Route path='/login' element={<Login/>}/>
               <Route path='/signup' element={<SignUp/>}/>
+              <Route path='/dashboard' element={<Dashboard/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
@@ -69,9 +74,11 @@ function App() {
               <Route path='/opportunities' element={<Opportunities/>}/>
             </>
           )}
+          {/**
+           * 
           {role === 'admin' && (
-            <Route path='/dashboard' element={<Dashboard/>}/>
           )}
+          */}
         </Routes>
       </BrowserRouter>
     );
