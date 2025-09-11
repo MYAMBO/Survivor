@@ -79,7 +79,7 @@
 
 .signup-form button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, var(--color-primary-secondary), var(--color-tertiary-primary));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-tertiary-primary));
 }
 
 .login-form {
@@ -119,8 +119,6 @@
 .login-form-button:hover {
     transform: scale(1.05);
 }
-
-/* Toggle Button Styles */
 
 .toggle-container {
     position: relative;
