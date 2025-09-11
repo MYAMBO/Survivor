@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import Opportunities from '../Startup Area/Opportunities/Opportunities'
-import Messaging from '../Startup Area/Messaging/Messaging'
+import Messaging from '../Messaging/Messaging'
 import Dashboard from '../Startup Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
 import Catalogue from '../Catalogue/Catalogue';
@@ -54,6 +54,10 @@ function App() {
             <>
               <Route path='/login' element={<Login/>}/>
               <Route path='/signup' element={<SignUp/>}/>
+            </>
+          )}
+          {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
+            <>
               <Route path='/catalog' element={<Catalogue/>}/>
               <Route path='/calendar' element={<Calendar/>}/>
             </>
