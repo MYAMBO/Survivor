@@ -1,0 +1,74 @@
+.user-element > div:first-child {
+  font-weight: bold;
+}
+
+.user-element-opened {
+  margin-top: 10px;
+}
+
+.delete-user-button {
+  background-color: #f00;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-user-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Popup styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  min-width: 300px;
+  text-align: center;
+}
+
+.popup p {
+  margin-bottom: 15px;
+}
+
+.popup button {
+  margin-right: 10px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup .validate-btn {
+  background-color: #f00;
+  color: #fff;
+}
+
+.popup .validate-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.popup .cancel-btn {
+  background-color: #777;
+  color: #fff;
+}
