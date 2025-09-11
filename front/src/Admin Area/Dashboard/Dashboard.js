@@ -3,22 +3,23 @@ import "./Dashboard.css";
 import Wheel from "./Wheel"; // ton composant roue
 import UserItem from "./UserItem/UserItem"; // ton composant roue
 
-function GetUserList() {
+function useUsers() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/admin/users", {
       method: "GET",
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json" },
-      credentials: 'include'
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     })
-      .then(res => {
+      .then((res) => {
         if (res.status === 401) return [];
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
@@ -26,20 +27,19 @@ function GetUserList() {
           setUsers([]);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Erreur fetch:", err);
         setUsers([]);
       });
   }, []);
 
-  return users;
+  return [users, setUsers]; // expose both state and setter
 }
 
 function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [startups, setStartups] = useState([]);
-
-  const users = GetUserList();
+  const [users, setUsers] = useUsers();
 
   useEffect(() => {
     fetch("http://localhost:3000/startups", {
@@ -131,7 +131,8 @@ function Dashboard() {
       <div className="user-wrapper">
         <ul className="user-list" style={{ listStyle: "none", padding: 0 }}>
           {users.map((user, index) => (
-            <UserItem key={index} user={user} />
+            <UserItem key={index} user={user} 
+            onUserDeleted={(id) => setUsers((prev) => prev.filter((u) => u.id !== id))}/>
           ))}
         </ul>
       </div>

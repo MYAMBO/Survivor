@@ -3,7 +3,6 @@ import "./UserItem.css";
 
 async function DeleteUser(ID) {
   try {
-    console.log(ID);
     const response = await fetch("http://localhost:3000/admin/deleteUser", {
       method: "DELETE",
       headers: {
@@ -11,41 +10,40 @@ async function DeleteUser(ID) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: ID
+        "id": ID
       }),
       credentials: "include"
     });
-    console.log("Command Sended")
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log(`User ${ID} deleted successfully:`, data);
   } catch (error) {
     console.error("Error deleting user:", error);
   }
 }
 
-function UserItem({ user }) {
+function UserItem({ user, onUserDeleted }) {
   const [open, setOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [countdown, setCountdown] = useState(5);
 
   const handleDeleteClick = (e) => {
-    console.log("show pop up");
     e.stopPropagation(); 
     setShowPopup(true);
     setCountdown(5);
-    console.log("end of this fct");
   };
 
-  const handleValidate = (ID) => {
-    console.log("in function");
-    DeleteUser(ID)
+  const handleValidate = async (ID) => {
+    await DeleteUser(ID);
     setShowPopup(false);
-    console.log("exit the function");
+
+    if (onUserDeleted) {
+      onUserDeleted(ID);
+    }
+
   };
 
   const handleCancel = () => {
