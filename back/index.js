@@ -18,6 +18,7 @@ const userRoutes = require('./src/routes/users');
 const startupsProfileRoutes = require('./src/routes/startupsProfile');
 const eventsRoutes = require('./src/routes/events');
 const adminRoutes = require('./src/routes/admin');
+const newsRoutes = require('./src/routes/news');
 
 const options = {
   definition: {
@@ -55,6 +56,7 @@ app.use('/', userRoutes);
 app.use('/', startupsProfileRoutes);
 app.use('/', eventsRoutes);
 app.use('/', adminRoutes);
+app.use('/', newsRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');
