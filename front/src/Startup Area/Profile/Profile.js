@@ -86,7 +86,6 @@ function Profile() {
   if (!profile) {
     return (
       <div className="profile-loading">
-        <div className="corner-band">In Development</div>
         <p>Chargement du profil...</p>
       </div>
     )
