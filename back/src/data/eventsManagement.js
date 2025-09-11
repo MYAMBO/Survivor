@@ -1,6 +1,6 @@
 const db = require("../db/firebaseSettings");
 
-async function createEvent(name, dates, location, description, event_type, target_audience, old_id) {
+async function createEvent(name, dates, location, description, event_type, target_audience, old_id, image = null, metadata = null) {
     if ([name, dates, location, description, event_type, target_audience, old_id].some(x => x == null)) {
         console.log("Error here");
         return 1;
@@ -29,7 +29,9 @@ async function createEvent(name, dates, location, description, event_type, targe
         description:description,
         event_type:event_type,
         target_audience:target_audience,
-        old_id:old_id
+        old_id:old_id,
+        image:image,
+        metadata:metadata
     });
     return id;
 }

@@ -1,15 +1,17 @@
 const express = require('express');
-const authenticateToken = require('../middleware/authMiddleware');
+const {authenticateToken} = require('../middleware/authMiddleware');
 const router = express.Router();
 const db = require("../db/firebaseSettings");
 const { GetUserDataById}  = require("../data/usersManagement");
 
 router.get('/profile', authenticateToken, async (req, res) => {
-    const user = await GetUserDataById("users", req.user.id);
+    const user = await GetUserDataById(req.user.id);
     res.json({
         "name": user.name,
         "email": user.email,
-        "role": user.role
+        "role": user.role,
+        "image": user.image,
+        "metadata": user.metadata
     })
 });
 
@@ -134,7 +136,9 @@ router.patch('/profile/password', authenticateToken, async (req, res) => {
     if (!password) {
         return res.status(400).json({ message: "Password is required." });
     }
-    await db.ref('users/' + req.user.id).update({ password: password });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.ref('users/' + req.user.id).update({ password: hashedPassword });
     res.status(200).json({ message: "Password updated successfully." });
 });
 
