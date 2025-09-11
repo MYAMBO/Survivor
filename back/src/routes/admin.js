@@ -124,11 +124,12 @@ router.get('/admin/users', authenticateTokenAdmin, async (req, res) => {
  *         description: Server error while deleting the user.
  */
 router.delete('/admin/deleteUser', authenticateTokenAdmin, async (req, res) => {
-    const {id} = req.body;
+    const id = req.body.id;
     if (!id) {
         return res.status(400).send('{"message":"User ID is required."}');
     }
     if (id === req.user.id) {
+        console.log(" can't delete myself");
         return res.status(400).send('{"message":"You cannot delete your own account."}');
     }
     await deleteUser(id);
