@@ -10,6 +10,7 @@ function Catalogue() {
   const [startups, setStartups] = useState([]);
   const [selectedStartup, setSelectedStartup] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
+  const role = localStorage.getItem("role") || "none";
 
   useEffect(() => {
     fetch("http://localhost:3000/startups", {
@@ -194,6 +195,34 @@ function Catalogue() {
                 Export in PDF
               </button>
             </div>
+          {role === "investor" && (
+            <div className="modal-footer">
+              <button
+                className="btn-contact"
+                onClick={() => {
+                  setSelectedStartup(null);
+                  fetch("http://localhost:3000/messaging/createConv", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({ startupId: selectedStartup.id }),
+                  })
+                  .then((res) => {
+                    if (!res.ok) throw new Error("Failed to create conversation");
+                    return res.json();
+                  })
+                  .then(() => {
+                    window.location.href = "/messaging";
+                  })
+                  .catch((err) => {
+                    console.error("Error creating conversation:", err);
+                  });
+                }}
+              >
+                Contact
+              </button>
+            </div>
+          )}
           </div>
         </div>
       )}
