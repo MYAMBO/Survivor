@@ -84,7 +84,7 @@ function Catalogue() {
     doc.text(startup.name || "Startup", 14, 16);
 
     const data = Object.entries(startup)
-      .filter(([key]) => key !== "id") // on enlève l'id
+      .filter(([key]) => key !== "id")
       .map(([key, value]) => {
         if (key === "founders" && Array.isArray(value)) {
           return [key, value.map(f => f.name).join(", ")];
