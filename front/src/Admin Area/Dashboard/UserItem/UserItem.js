@@ -76,17 +76,17 @@ function UserItem({ user, onUserDeleted }) {
       )}
 
       {showPopup && (
-        <div className="popup-overlay" onClick={handleCancel}>
-          <div className="popup" onClick={(e) => e.stopPropagation()}>
+        <div className="delete-popup-overlay" onClick={handleCancel}>
+          <div className="delete-popup" onClick={(e) => e.stopPropagation()}>
             <p>Are you sure you want to delete this user?</p>
             <button
-              className="validate-btn"
+              className="delete-validate-btn"
               onClick={() => handleValidate(user.id)}
               disabled={countdown > 0}
             >
               {countdown > 0 ? `Wait ${countdown}s` : "Validate"}
             </button>
-            <button className="cancel-btn" onClick={handleCancel}>
+            <button className="delete-cancel-btn" onClick={handleCancel}>
               Cancel
             </button>
           </div>
