@@ -1,5 +1,5 @@
 .dashboard {
-    background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-secondary));
     width: 100%;
     min-height: 100%;
     height: fit-content;
@@ -109,7 +109,7 @@
 .startup-section {
   display: grid;
   text-align: center;
-  background: var(--color-magenta-gray);
+  background: white;
   width: fit-content;
   border-radius: 30px;
   min-height: fit-content;
