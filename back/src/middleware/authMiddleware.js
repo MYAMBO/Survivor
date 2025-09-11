@@ -20,6 +20,24 @@ function authenticateToken(req, res, next) {
     });
 }
 
+function authenticateTokenFunder(req, res, next) {
+    const token = req.cookies.jwtToken || null;
+    if (!token)
+        return res.sendStatus(401);
+
+    jwt.verify(token, SECRET_KEY, async (err, user) => {
+        if (err)
+            return res.sendStatus(403);
+
+        const userData = await GetUserDataById(user.id);
+        if (activeTokens[user.id] !== token || userData.role !== "funder")
+            return res.status(403).json({ message: "Session invalid or logged in elsewhere" });
+
+        req.user = user;
+        next();
+    });
+}
+
 function authenticateTokenAdmin(req, res, next) {
     const token = req.cookies.jwtToken || null;
     if (!token)
@@ -38,4 +56,4 @@ function authenticateTokenAdmin(req, res, next) {
     });
 }
 
-module.exports = {authenticateToken, authenticateTokenAdmin};
+module.exports = {authenticateToken, authenticateTokenFunder, authenticateTokenAdmin};
