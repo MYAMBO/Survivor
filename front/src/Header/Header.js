@@ -31,11 +31,9 @@ function Header() {
           <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
           </>
         )}
-        {/**
-         * 
         {role === "admin" && (
+          <Link to="/dashboard" onClick={closeAllMenus}>Dashboard</Link>
         )}
-          */}
       </div>
 
       <button className="login-menu-button" onClick={toggleLogin}>
@@ -47,7 +45,6 @@ function Header() {
           <>
             <Link to="/login" onClick={closeAllMenus}>Log In</Link>
             <Link to="/signup" onClick={closeAllMenus}>Sign Up</Link>
-            <Link to="/dashboard" onClick={closeAllMenus}>Dashboard</Link>
           </>
         ) : (
           <>

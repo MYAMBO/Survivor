@@ -58,7 +58,6 @@ function App() {
             <>
               <Route path='/login' element={<Login/>}/>
               <Route path='/signup' element={<SignUp/>}/>
-              <Route path='/dashboard' element={<Dashboard/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
@@ -69,16 +68,12 @@ function App() {
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (
             <>
+              <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/profile' element={<Profile/>}/>
               <Route path='/messaging' element={<Messaging/>}/>
               <Route path='/opportunities' element={<Opportunities/>}/>
             </>
           )}
-          {/**
-           * 
-          {role === 'admin' && (
-          )}
-          */}
         </Routes>
       </BrowserRouter>
     );
