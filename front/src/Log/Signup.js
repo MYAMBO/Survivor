@@ -71,10 +71,24 @@ export async function fetchAndStoreRole() {
         })
         .then(async data => {
           console.log("Inscription réussie :", data);
-          if (onSignUp) onSignUp(data);
+          const loginRes = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              email: formData.email,
+              password: formData.password
+            })
+          });
+          if (!loginRes.ok) throw new Error("Échec de la connexion automatique");
           await fetchAndStoreRole();
           navigate("/");
+          window.location.reload();
         })
+        
         .catch(err => {
           console.error("Erreur :", err.message);
           setError(err.message);
