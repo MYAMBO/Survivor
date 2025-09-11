@@ -61,10 +61,14 @@ function App() {
               <Route path='/dashboard' element={<Dashboard/>}/>
             </>
           )}
-          {(role === 'investor' || role === 'admin' || role === 'founder') && (
+          {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
             <>
               <Route path='/catalog' element={<Catalogue/>}/>
               <Route path='/calendar' element={<Calendar/>}/>
+            </>
+          )}
+          {(role === 'investor' || role === 'admin' || role === 'founder') && (
+            <>
               <Route path='/profile' element={<Profile/>}/>
               <Route path='/messaging' element={<Messaging/>}/>
               <Route path='/opportunities' element={<Opportunities/>}/>

@@ -47,13 +47,13 @@
   font-weight: bold;
   cursor: pointer;
   color: white;
-  background: linear-gradient(135deg, var(--color-red), var(--color-purple-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary-tertiary));
   transition: 0.2s;
 }
 
 .popup button:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary-primary));
 }
 
 @keyframes fadeIn {

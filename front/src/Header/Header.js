@@ -23,10 +23,10 @@ function Header() {
 
       <div className={`navigation-wrapper ${isMenuOpen ? "active" : ""}`}>
         <Link to="/" onClick={closeAllMenus}>Home</Link>
+        <Link to="/calendar" onClick={closeAllMenus}>Calendar</Link>
+        <Link to="/catalog" onClick={closeAllMenus}>Catalog</Link>
         {(role === "investor" || role === "admin" || role === "founder") && (
           <>
-          <Link to="/catalog" onClick={closeAllMenus}>Catalog</Link>
-          <Link to="/calendar" onClick={closeAllMenus}>Calendar</Link>
           <Link to="/messaging" onClick={closeAllMenus}>Messaging</Link>
           <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
           </>
@@ -73,7 +73,7 @@ function Header() {
               .catch(err => {
                 console.error('Erreur lors de la déconnexion :', err);
               });
-              }}>Sign Out</Link>
+              }}>Log Out</Link>
             </>
         )}
       </div>

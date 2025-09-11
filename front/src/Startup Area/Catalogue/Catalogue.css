@@ -1,6 +1,6 @@
 .catalogue-container {
   padding: 70px 20px 20px 20px;
-  background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-secondary));
   min-height: 100vh;
 }
 
@@ -95,23 +95,26 @@
 }
 
 .ag-courses-item_link:hover .ag-courses-item_bg {
-  transform: scale(15);
+  transform: scale(20);
 }
 
+.ag-courses_item:nth-child(1n) .ag-courses-item_bg {
+  background-color: var(--color-tertiary);
+}
 .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
-  background-color: var(--color-purple);
+  background-color: var(--color-tertiary-primary);
 }
 .ag-courses_item:nth-child(3n) .ag-courses-item_bg {
-  background-color: var(--color-magenta-gray);
+  background-color: var(--color-tertiary);
 }
 .ag-courses_item:nth-child(4n) .ag-courses-item_bg {
-  background-color: var(--color-magenta);
+  background-color: var(--color-secondary-primary);
 }
 .ag-courses_item:nth-child(5n) .ag-courses-item_bg {
-  background-color: var(--color-magenta-purple);
+  background-color: var(--color-secondary);
 }
 .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
-  background-color: var(--color-purple-light);
+  background-color: var(--color-primary);
 }
 
 h2 {
@@ -154,7 +157,7 @@ h2 {
 }
 
 .filters select:focus {
-  border: 2px solid var(--color-magenta);
+  border: 2px solid var(--color-secondary-secondary);
 }
 
 .searchbar {
@@ -184,3 +187,100 @@ h2 {
   transition: all 0.3s ease;
   min-width: 200px;
 }
+
+/* overlay global (en dehors des cards) */
+.global-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 20px;
+}
+
+/* boite modal */
+.global-modal {
+  background: #ffffff;
+  color: #111;
+  width: min(900px, 96%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  padding: 18px 20px 16px 20px;
+  position: relative;
+}
+
+/* bouton fermer */
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* header */
+.modal-header h3 {
+  margin: 0 0 10px 0;
+}
+
+/* content layout */
+.modal-body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* image */
+.modal-image {
+  width: 220px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* placeholder image box */
+.modal-image.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 140px;
+  background: #f1f1f1;
+  color: #777;
+  border-radius: 6px;
+}
+
+/* texte infos */
+.modal-info {
+  flex: 1 1 380px;
+  min-width: 220px;
+}
+
+.modal-info p { margin: 6px 0; }
+
+/* actions (bouton export) */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.btn-export {
+  background: #0b74de;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-export:hover { opacity: 0.95; }

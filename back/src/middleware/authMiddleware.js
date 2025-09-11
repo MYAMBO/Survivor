@@ -29,9 +29,7 @@ function authenticateTokenAdmin(req, res, next) {
         if (err)
             return res.sendStatus(403);
 
-        console.log(user.id);
         const userData = await GetUserDataById(user.id);
-        console.log(userData.role);
         if (activeTokens[user.id] !== token || userData.role !== "admin")
             return res.status(403).json({ message: "Session invalid or logged in elsewhere" });
 
