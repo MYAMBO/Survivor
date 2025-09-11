@@ -6,7 +6,7 @@ import Messaging from '../Messaging/Messaging'
 import Dashboard from '../Admin Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
 import Catalogue from '../Startup Area/Catalogue/Catalogue';
-import Calendar from '../Startup Area/Calendar/Calendar';
+import MyCalendar from '../Startup Area/Calendar/Calendar';
 import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
@@ -64,7 +64,7 @@ function App() {
           {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
             <>
               <Route path='/catalog' element={<Catalogue/>}/>
-              <Route path='/calendar' element={<Calendar/>}/>
+              <Route path='/calendar' element={<MyCalendar/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (
