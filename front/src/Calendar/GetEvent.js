@@ -1,5 +1,3 @@
-import { format } from "date-fns";
-
 async function getData(startDate, endDate) {
   try {
     const start = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;

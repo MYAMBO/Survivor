@@ -59,7 +59,7 @@ function App() {
           {(role === 'investor' || role === 'admin' || role === 'founder' || 'none') && (
             <>
               <Route path='/catalog' element={<Catalogue/>}/>
-              <Route path='/calendar' element={<Calendar/>}/>
+              <Route path='/calendar' element={<MyCalendar/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (

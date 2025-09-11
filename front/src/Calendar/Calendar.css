@@ -1,6 +1,6 @@
 .Calendar-wrapper {
     margin: 0;
-    background: linear-gradient(90deg, var(--color-red), var(--color-magenta));
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-secondary));
     display: flex;
     overflow: hidden;
     height: 100%;
@@ -35,13 +35,13 @@
 }
 
 .rbc-day-bg.rbc-today {
-    background-color: var(--color-magenta);
+    background-color: var(--color-secondary-tertiary);
     color: white;
     font-weight: bold;
 }
 
 .rbc-event {
-    background-color: var(--color-red);
+    background-color: var(--color-tertiary-primary);
     color: white;
     padding: 2px 5px;
     font-size: 0.85rem;
@@ -102,15 +102,12 @@
 
 .toolbar-button:hover {
     border: none;
-    background: linear-gradient(135deg, var(--color-red-pink), var(--color-purple));
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-secondary));
     color: white;
     transform: scale(1.05);
 }
 
 @media (max-width: 900px) {
-    .toolbar-wrapper {
-    }
-
     .time-period-wrapper {
         grid-column: 3;
         display: none;
