@@ -79,7 +79,6 @@ async function GetUserDataById(id) {
         const myObj = JSON.parse(myStr)
         for (const user of myObj){
             if (user.id === id){
-                console.log(user);
                 return user;
             }
         }
