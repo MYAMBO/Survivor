@@ -10,6 +10,7 @@ import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
 import Home from '../Home/Home';
+import News from '../News/News';
 import './App.css';
 
 function App() {  
@@ -63,6 +64,7 @@ function App() {
             <>
               <Route path='/catalog' element={<Catalogue/>}/>
               <Route path='/calendar' element={<MyCalendar/>}/>
+              <Route path='/news' element={<News/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (
