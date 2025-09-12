@@ -2,9 +2,18 @@ import { useEffect, useState } from 'react'
 import './Profile.css'
 import Popup from './UpdateForm/UpdateForm'
 
+function MyPopup ({id, profile}) {
+  
+  if (profile.startups && profile.startups.lentgh >0)
+    return (
+      <Popup id={id} active={profile.startups[0].id}/>
+    )
+}
+
 function Profile() {
   const [profile, setProfile] = useState(null);
   const [active, setActive] = useState(false);
+  const [activePerm, setActivePerm] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/profile", {
@@ -19,6 +28,10 @@ function Profile() {
       .then(data => setProfile(data))
       .catch(err => console.error('Erreur fetch:', err))
   }, [])
+
+  const togglePopupState = () => {
+    setActive(!active);
+  }
 
   const handleChangeName = () => {
     const newName = prompt("Enter your new name :", profile.name)
@@ -120,6 +133,9 @@ function Profile() {
     )
   }
 
+  if (profile.role = "founder")
+    setActivePerm(true);
+
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -138,10 +154,11 @@ function Profile() {
             <button className="btn btn-primary" onClick={handleChangeName}>Change name</button>
             <button className="btn btn-primary" onClick={handleChangeEmail}>Change email</button>
             <button className="btn btn-secondary" onClick={handleChangePassword}>Change password</button>
+            <button className={activePerm ? "btn btn-secondary" : "hidden"} onClick={togglePopupState}>Change password</button>
             <button className="btn btn-danger" onClick={handleDeleteAccount}>Delete account</button>
           </div>
       </div>
-      <Popup id={id} active={active}/>
+      <MyPopup active={active} setActive={setActive} profile={profile}/>
     </div>
   )
 }

@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./UpdateForm.css"
 
-function Formcomponent (formData) {
-    return (
-        <div className="updateform-form">
-            <input type="text"></input>
-        </div>
-    )
-}
+const HandleValidate = (data, setActive) => {
 
-const handleValidate = (data) => {
     useEffect(() => {
     fetch('http://localhost:3000/modifyStartup', 
         {
@@ -21,20 +14,21 @@ const handleValidate = (data) => {
             body: JSON.stringify(data)
         }
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch(err => {
+            console.error("Erreur :", err.message);
+        });
+    }, []);
+    
+    setActive(false);
 }
 
-const closePopup = () => {
-
-}
-
-const Popup = (id, active) => {
+const Popup = (id, active, setActive) => {
   const [formData, setFormData] = useState([]);
 
   function handleChange(e) {
@@ -64,6 +58,9 @@ const Popup = (id, active) => {
       .then((data) => {
         console.log(data);
         setFormData(data);
+      })
+      .catch(err => {
+        console.error("Erreur :", err.message);
       });
   }, []);
 
@@ -141,7 +138,7 @@ const Popup = (id, active) => {
         </form>
         <div className="popup-actions">
             <button className="form-popup-close">Close</button>
-            <button className="form-popup-validate" onClick={handleValidate(id)} >Validate</button>
+            <button className="form-popup-validate" onClick={HandleValidate(id, setActive)} >Validate</button>
         </div>
       </div>
     </div>
