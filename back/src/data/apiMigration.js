@@ -4,6 +4,7 @@ const {createStartup, getIdStartupByEmail} = require("./startupsManagement")
 const {createPartner} = require("./partnersManagement");
 const {createEvent} = require("./eventsManagement")
 const {createNews} = require("./newsManagement")
+const {getUserIdByName} = require("./usersManagement");
 const bcrypt = require('bcrypt');
 const path = require("path");
 const fs = require("fs");
@@ -161,6 +162,9 @@ async function callMigration(){
 
             const dataStartupsUnique = await responseStartupsUnique.json();
 
+            for (const founder of dataStartupsUnique.founders) {
+                founder.id = await getUserIdByName(founder.name);
+            }
             await createStartup(
                 x.name,
                 x.legal_status,
@@ -175,8 +179,7 @@ async function callMigration(){
                 dataStartupsUnique.needs,
                 x.sector,
                 x.maturity,
-                dataStartupsUnique.founders,
-                "0123456"
+                dataStartupsUnique.founders
             );
         }
     }
