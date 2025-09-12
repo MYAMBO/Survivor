@@ -4,15 +4,24 @@ const router = express.Router();
 const db = require("../db/firebaseSettings");
 const { GetUserDataById}  = require("../data/usersManagement");
 const bcrypt = require('bcrypt');
+const {getStartupsListByFounderId} = require("../data/startupsManagement");
 
 router.get('/profile', authenticateToken, async (req, res) => {
     const user = await GetUserDataById(req.user.id);
+    if (!user) {
+        return res.status(404).json({ message: "User not found." });
+    }
+    if (user.role === 'founder') {
+        const startups = await getStartupsListByFounderId(user.id);
+        user.startups = startups;
+    }
     res.json({
         "name": user.name,
         "email": user.email,
         "role": user.role,
         "image": user.image,
-        "metadata": user.metadata
+        "metadata": user.metadata,
+        "startups": user.startups
     })
 });
 
