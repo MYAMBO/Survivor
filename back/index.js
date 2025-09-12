@@ -65,7 +65,7 @@ app.get('/ping', (req, res) => {
 app.get('/migration', async (req, res) => {
     console.log('Migrated API Force');
     await callMigration();
-    res.status(200).send('home');
+    res.status(200).send('migration');
 });
 
 app.use((req, res) => {

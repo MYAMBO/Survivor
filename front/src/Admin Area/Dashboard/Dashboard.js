@@ -67,6 +67,8 @@ function Dashboard() {
       });
   }, []);
 
+  const [buttonloading, setButtonLoading] = useState(false);
+
   if (loading) {
     return <div className="dashboard">Loading...</div>;
   }
@@ -107,25 +109,30 @@ function Dashboard() {
   const { slices: sectorSlices } = buildSlices("sector");
   const { slices: countrySlices } = buildSlices("location");
 
-  const lauchhMigration = () => {
-    fetch("http://localhost:3000/migration", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json" },
-      credentials: 'include'
-    })
-    .then(res => {
+
+  const launchMigration = async () => {
+    setButtonLoading(true);
+    try {
+      const res = await fetch("http://localhost:3000/migration", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
       if (res.status === 200) {
         alert("Migration started successfully.");
       } else {
         alert("Failed to start migration.");
       }
-    })
-    .catch(err => {
+    } catch (err) {
       console.error("Erreur fetch:", err);
       alert("Error starting migration.");
-    });
+    } finally {
+      setButtonLoading(false);
+    }
   };
 
   return (
@@ -146,7 +153,9 @@ function Dashboard() {
           <h3>By Country</h3>
           <Wheel slices={countrySlices} centerLabel={total} />
         </div>
-        <button className="button-migration" onClick={lauchhMigration}>Launch Migration</button>
+        <button className={`button-migration ${loading ? "disabled" : ""}`} onClick={launchMigration} disabled={loading}>
+          {buttonloading ? "Loading..." : "Launch Migration"}
+        </button>
       </div>
       <div className="user-wrapper">
         <ul className="user-list" style={{ listStyle: "none", padding: 0 }}>
