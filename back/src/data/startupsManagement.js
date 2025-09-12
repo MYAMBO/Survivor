@@ -111,11 +111,12 @@ async function getStartupsListByFounderId(id) {
         }));
         const myStr = JSON.stringify(allStartups, null, 0)
         const myObj = JSON.parse(myStr)
-        for (const startup of myObj){
-            if (startup.founders && Array.isArray(startup.founders)) {
-                if (startup.founders.includes(id)) {
-                    const { password, ...startupWithoutPassword } = startup;
-                    startups.push(startupWithoutPassword);
+        for (const startup of allStartups) {
+            if (startup.founders) {
+                for (const founder of startup.founders) {
+                    if (founder.id === id) {
+                        startups.push(startup);
+                    }
                 }
             }
         }
