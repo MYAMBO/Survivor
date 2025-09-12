@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createStartup, getStartupList} = require("../data/startupsManagement");
+const {createStartup, getStartupList, modifyStartup} = require("../data/startupsManagement");
 
 router.post('/createStartup', async (req, res) => {
     const {name, legal_status, address, email, phone, sector, maturity, password} = req.body;
@@ -58,6 +58,12 @@ router.post('/createStartup', async (req, res) => {
 router.get('/startups', async (req, res) => {
     const startups = await getStartupList();
     res.json(startups);
+});
+
+router.get('/startups', async (req, res) => {
+    const {name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders} = req.body;
+    await modifyStartup(name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, req.user.id);
+    res.status(200).send('Ok');
 });
 
 module.exports = router;
