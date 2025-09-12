@@ -125,7 +125,6 @@ async function getStartupsListByFounderId(id) {
     return startups;
 }
 
-module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail, getStartupsListByFounderId}
 async function modifyStartup(name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, askId){
     if ([name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, askId].some(x => x == null)) {
         console.log("Error here");
@@ -173,4 +172,4 @@ async function modifyStartup(name, legal_status, address, email, phone, created_
     return 0;
 }
 
-module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail, modifyStartup}
+module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail, modifyStartup, getStartupsListByFounderId}
