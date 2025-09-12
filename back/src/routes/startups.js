@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {createStartup, getStartupList, modifyStartup} = require("../data/startupsManagement");
+const {authenticateToken} = require('../middleware/authMiddleware');
 
 router.post('/createStartup', async (req, res) => {
     const {name, legal_status, address, email, phone, sector, maturity, password} = req.body;
@@ -60,7 +61,7 @@ router.get('/startups', async (req, res) => {
     res.json(startups);
 });
 
-router.put('/modifyStartup', async (req, res) => {
+router.put('/modifyStartup', authenticateToken, async (req, res) => {
     const {name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders} = req.body;
     await modifyStartup(name, legal_status, address, email, phone, created_at, description, website_url, social_media_url, project_status, needs, sector, maturity, founders, req.user.id);
     res.status(200).send('Ok');
