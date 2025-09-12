@@ -62,7 +62,7 @@ app.get('/ping', (req, res) => {
     res.status(200).send('pong');
 });
 
-app.get('/', async (req, res) => {
+app.get('/migration', async (req, res) => {
     console.log('Migrated API Force');
     await callMigration();
     res.status(200).send('home');
@@ -72,10 +72,10 @@ app.use((req, res) => {
     res.status(404).send('Not Found');
 });
 
-schedule.scheduleJob('0 */10 * * * *', async () => {
-   console.log('Migrated API');
-   await callMigration();
-});
+//schedule.scheduleJob('0 */10 * * * *', async () => {
+//   console.log('Migrated API');
+//   await callMigration();
+//});
 
 console.log(`App starting on port ${port}`);
 console.log(`Swagger Documentation: http://localhost:${port}/api-docs`);
