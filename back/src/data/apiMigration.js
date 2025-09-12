@@ -175,8 +175,7 @@ async function callMigration(){
                 dataStartupsUnique.needs,
                 x.sector,
                 x.maturity,
-                dataStartupsUnique.founders,
-                "0123456"
+                dataStartupsUnique.founders
             );
         }
     }
