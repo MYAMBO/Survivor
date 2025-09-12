@@ -100,4 +100,29 @@ async function getIdStartupByEmail(email) {
     return '';
 }
 
-module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail}
+async function getStartupsListByFounderId(id) {
+    const snapshot = await db.ref('startups').once('value');
+    let startups = [];
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const allStartups = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(allStartups, null, 0)
+        const myObj = JSON.parse(myStr)
+        for (const startup of myObj){
+            if (startup.founders && Array.isArray(startup.founders)) {
+                if (startup.founders.includes(id)) {
+                    const { password, ...startupWithoutPassword } = startup;
+                    startups.push(startupWithoutPassword);
+                }
+            }
+        }
+    } else {
+        console.log("Not found")
+    }
+    return startups;
+}
+
+module.exports = {createStartup, getStartupList, GetStartupInformationsById, getIdStartupByEmail, getStartupsListByFounderId}
