@@ -150,6 +150,4 @@ function News() {
   );
 }
 
-// location  category 
-
 export default News;
