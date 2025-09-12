@@ -3,6 +3,7 @@ const {authenticateToken} = require('../middleware/authMiddleware');
 const router = express.Router();
 const db = require("../db/firebaseSettings");
 const { GetUserDataById}  = require("../data/usersManagement");
+const bcrypt = require('bcrypt');
 
 router.get('/profile', authenticateToken, async (req, res) => {
     const user = await GetUserDataById(req.user.id);
