@@ -3,7 +3,8 @@ import './Profile.css'
 import Popup from './UpdateForm/UpdateForm'
 
 function Profile() {
-  const [profile, setProfile] = useState(null)
+  const [profile, setProfile] = useState(null);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/profile", {
@@ -140,7 +141,7 @@ function Profile() {
             <button className="btn btn-danger" onClick={handleDeleteAccount}>Delete account</button>
           </div>
       </div>
-      <Popup/>
+      <Popup id={id} active={active}/>
     </div>
   )
 }
