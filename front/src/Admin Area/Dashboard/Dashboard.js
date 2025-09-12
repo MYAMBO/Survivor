@@ -108,7 +108,7 @@ function Dashboard() {
   const { slices: countrySlices } = buildSlices("location");
 
   const lauchhMigration = () => {
-    fetch("http://localhost:3000/admin/migrate", {
+    fetch("http://localhost:3000/migration", {
       method: "POST",
       headers: {
         "Accept": "application/json",
