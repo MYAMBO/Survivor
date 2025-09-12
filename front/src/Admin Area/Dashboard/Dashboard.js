@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import Wheel from "./Wheel"; // ton composant roue
-import UserItem from "./UserItem/UserItem"; // ton composant roue
+import Wheel from "./Wheel";
+import UserItem from "./UserItem/UserItem";
 
 function useUsers() {
   const [users, setUsers] = useState([]);
@@ -33,11 +33,11 @@ function useUsers() {
       });
   }, []);
 
-  return [users, setUsers]; // expose both state and setter
+  return [users, setUsers];
 }
 
 function Dashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [startups, setStartups] = useState([]);
   const [users, setUsers] = useUsers();
 
@@ -66,6 +66,8 @@ function Dashboard() {
         setStartups([]);
       });
   }, []);
+
+  const [buttonloading, setButtonLoading] = useState(false);
 
   if (loading) {
     return <div className="dashboard">Loading...</div>;
@@ -101,13 +103,37 @@ function Dashboard() {
     }));
   
     return { stats, slices };
-  };
-  
+  };  
 
   const { slices: maturitySlices } = buildSlices("maturity");
   const { slices: sectorSlices } = buildSlices("sector");
   const { slices: countrySlices } = buildSlices("location");
 
+
+  const launchMigration = async () => {
+    setButtonLoading(true);
+    try {
+      const res = await fetch("http://localhost:3000/migration", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (res.status === 200) {
+        alert("Migration started successfully.");
+      } else {
+        alert("Failed to start migration.");
+      }
+    } catch (err) {
+      console.error("Erreur fetch:", err);
+      alert("Error starting migration.");
+    } finally {
+      setButtonLoading(false);
+    }
+  };
 
   return (
     <div className="dashboard">
@@ -127,6 +153,9 @@ function Dashboard() {
           <h3>By Country</h3>
           <Wheel slices={countrySlices} centerLabel={total} />
         </div>
+        <button className={`button-migration ${loading ? "disabled" : ""}`} onClick={launchMigration} disabled={loading}>
+          {buttonloading ? "Loading..." : "Launch Migration"}
+        </button>
       </div>
       <div className="user-wrapper">
         <ul className="user-list" style={{ listStyle: "none", padding: 0 }}>

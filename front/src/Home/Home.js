@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import './Home.css'
-import Markdown from "react-markdown";
 
 function PresentationSection () {
   return (

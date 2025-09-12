@@ -151,3 +151,16 @@
 .delete-user-button:hover {
   transform: scale(1.1);
 }
+
+.button-migration {
+  position: absolute;
+  top: 5%;
+  right: 1%;
+  width: 10%;
+  margin-top: 20px;
+  background-color: var(--color-primary);
+}
+
+.button-migration:hover {
+  background-color: red;
+}

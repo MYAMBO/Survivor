@@ -9,6 +9,7 @@ const port = 3000
 const cors = require('cors');
 const schedule = require('node-schedule');
 const callMigration = require('./src/data/apiMigration')
+const {authenticateTokenAdmin} = require("./src/middleware/authMiddleware");
 
 const profileRoutes = require('./src/routes/profile');
 const loginRoutes = require('./src/routes/login');
@@ -62,10 +63,10 @@ app.get('/ping', (req, res) => {
     res.status(200).send('pong');
 });
 
-app.get('/migration', async (req, res) => {
+app.get('/migration', authenticateTokenAdmin, async (req, res) => {
     console.log('Migrated API Force');
     await callMigration();
-    res.status(200).send('home');
+    res.status(200).send('migration');
 });
 
 app.use((req, res) => {
