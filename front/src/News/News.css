@@ -37,6 +37,9 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     max-width: 720px;
     margin: 0 auto;
+    h2 {
+      color: #222;
+    }
   }
   
   .news-card-image img {
@@ -79,6 +82,3 @@
     text-align: right;
   }
   
-h2 {
-  color: #222;
-}
