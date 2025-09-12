@@ -1,182 +1,93 @@
-.messaging {
-    display: flex;
-    height: 90vh;
-    max-width: 1200px;
-    margin: 4rem auto;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
+.messaging-container {
+  height: 100%;
+  min-height: fit-content;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  background-color: #f3f4f6;
 }
 
-.messaging-denied {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-  
-.messaging-denied button {
-    margin-top: 1rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 6px;
-    border: none;
-    background: var(--color-primary, #F18585);
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
+.sidebar {
+  border-right: 1px solid #ddd;
+  background: #fff;
+  padding: 1rem;
 }
 
-.messaging-denied button:hover {
-    background: var(--color-secondary, #F49C9C);
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
-  
 
-.chat-sidebar {
-    width: 250px;
-    background: var(--color-light-gray, #fafafa);
-    border-right: 1px solid #ddd;
-    padding: 1rem;
-
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-  
 
-.chat-sidebar h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-
+.conversation {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
-  
 
-.chat-sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
+.conversation.active {
+  background-color: #e5e7eb;
 }
-  
 
-.chat-sidebar li {
-    padding: 0.6rem 0.8rem;
-    margin-bottom: 0.4rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-
+.chat-section {
+  display: flex;
+  flex-direction: column;
 }
-  
 
-.chat-sidebar li:hover {
-    background: var(--color-tertiary, #F6AEAE);
-
+.messages {
+  padding: 70px 10px 0 10px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-  
-
-.chat-sidebar li.active {
-    background: var(--color-secondary, #F49C9C);
-    color: white;
-    font-weight: bold;
-
-}
-  
-
-.chat-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: white;
-
-}
-  
-
-.chat-header {
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    font-size: 1.2rem;
-    font-weight: bold;
-
-}
-  
-
-.chat-messages {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-
-}
-  
 
 .message {
-    max-width: 70%;
-    padding: 0.6rem 0.9rem;
-    border-radius: 12px;
-    position: relative;
-    font-size: 0.95rem;
-  
-}  
-  
-.message p {
-    margin: 0;
-
+  max-width: 16rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-  
-
-.message span {
-    font-size: 0.75rem;
-    color: #777;
-    position: absolute;
-    bottom: -1.2rem;
-    right: 0.5rem;
-
-}
-  
-
-.message.received {
-    align-self: flex-start;
-    background: var(--color-light-gray, #f5f5f5);
-
-}
-  
 
 .message.sent {
-    align-self: flex-end;
-    background: var(--color-primary, #F18585);
-    color: white;
-
-}
-  
-
-.chat-input {
-    display: flex;
-    border-top: 1px solid #ddd;
-    padding: 0.6rem;
-    gap: 0.6rem;
-
-}
-  
-
-.chat-input input {
-    flex: 1;
-    padding: 0.8rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
-
+  margin-left: auto;
+  background-color: #3b82f6;
+  color: white;
 }
 
-  .chat-input button {
-    background: var(--color-primary, #F18585);
-    border: none;
-    padding: 0.8rem 1.2rem;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .chat-input button:hover {
-    background: var(--color-secondary, #F49C9C);
-  }
-  
+.message.received {
+  margin-right: auto;
+  background-color: #d1d5db;
+}
+
+.input-section {
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 0.5rem;
+  background: #fff;
+}
+
+.message-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.send-button {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}

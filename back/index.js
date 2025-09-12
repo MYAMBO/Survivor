@@ -9,6 +9,7 @@ const port = 3000
 const cors = require('cors');
 const schedule = require('node-schedule');
 const callMigration = require('./src/data/apiMigration')
+const {authenticateTokenAdmin} = require("./src/middleware/authMiddleware");
 
 const profileRoutes = require('./src/routes/profile');
 const loginRoutes = require('./src/routes/login');
@@ -18,6 +19,7 @@ const userRoutes = require('./src/routes/users');
 const startupsProfileRoutes = require('./src/routes/startupsProfile');
 const eventsRoutes = require('./src/routes/events');
 const adminRoutes = require('./src/routes/admin');
+const newsRoutes = require('./src/routes/news');
 
 const options = {
   definition: {
@@ -55,25 +57,26 @@ app.use('/', userRoutes);
 app.use('/', startupsProfileRoutes);
 app.use('/', eventsRoutes);
 app.use('/', adminRoutes);
+app.use('/', newsRoutes);
 
 app.get('/ping', (req, res) => {
     res.status(200).send('pong');
 });
 
-app.get('/', async (req, res) => {
+app.get('/migration', authenticateTokenAdmin, async (req, res) => {
     console.log('Migrated API Force');
     await callMigration();
-    res.status(200).send('home');
+    res.status(200).send('migration');
 });
 
 app.use((req, res) => {
     res.status(404).send('Not Found');
 });
 
-schedule.scheduleJob('0 */10 * * * *', async () => {
-   console.log('Migrated API');
-   await callMigration();
-});
+//schedule.scheduleJob('0 */10 * * * *', async () => {
+//   console.log('Migrated API');
+//   await callMigration();
+//});
 
 console.log(`App starting on port ${port}`);
 console.log(`Swagger Documentation: http://localhost:${port}/api-docs`);

@@ -1,75 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import './Messaging.css'
+// MessagingPage.jsx
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import "./Messaging.css";
 
-function Messaging() {
-  const role = localStorage.getItem("role") || "none";
-  const [conversations, setConversations] = useState([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
-  const [messages, setMessages] = useState([]);
+export default function MessagingPage() {
+  const [conversations] = useState([
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" },
+    { id: 3, name: "Charlie" },
+  ]);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/getAllConv", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: 'include'
-    })
-    .then(res => res.json())
-    .then((data) => (Array.isArray(data) ? setConversations(data) : setConversations([])))
-    .catch(err => {console.error("Error fetching conversations:", err);});
-  }, []);
+  const [activeChat, setActiveChat] = useState(1);
+  const [messages, setMessages] = useState({
+    1: [
+      { from: "Alice", text: "Hey! How are you?" },
+      { from: "Me", text: "I’m good, thanks!" },
+    ],
+    2: [{ from: "Bob", text: "Are you joining later?" }],
+    3: [],
+  });
 
-  if (role === "none") {
-    return (
-      <div className="messaging messaging-denied">
-        <h2>Access Denied</h2>
-        <p>You must be logged in to access the messaging feature.</p>
-        <button onClick={() => window.location.href = '/login'}>Go to Login</button>
-      </div>
-    )
-  }
+  const [newMessage, setNewMessage] = useState("");
 
+  const handleSend = () => {
+    if (!newMessage.trim()) return;
+    setMessages((prev) => ({
+      ...prev,
+      [activeChat]: [...prev[activeChat], { from: "Me", text: newMessage }],
+    }));
+    setNewMessage("");
+  };
 
   return (
-    <div className="messaging">
-      <aside className="chat-sidebar">
-        <h3>Conversations</h3>
-        <ul>
-        <li className="active">Alice</li>
-          <li>Bob</li>
-          <li>Charlie</li>
-        </ul>
-      </aside>
+    <div className="messaging-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <h2 className="sidebar-title">Chats</h2>
+        <div className="conversation-list">
+          {conversations.map((c) => (
+            <div
+              key={c.id}
+              className={`conversation ${activeChat === c.id ? "active" : ""}`}
+              onClick={() => setActiveChat(c.id)}
+            >
+              {c.name}
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <main className="chat-main">
-        <div className="chat-header">
-          <h3>Alice</h3>
+      {/* Chat Section */}
+      <div className="chat-section">
+        {/* Messages */}
+        <div className="messages">
+          {messages[activeChat]?.map((m, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className={`message ${m.from === "Me" ? "sent" : "received"}`}
+            >
+              {m.text}
+            </motion.div>
+          ))}
         </div>
 
-        <div className="chat-messages">
-          <div className="message received">
-            <p>Salut 👋</p>
-            <span>10:32</span>
-          </div>
-          <div className="message sent">
-            <p>Hey Alice ! Comment ça va ?</p>
-            <span>10:33</span>
-          </div>
-          <div className="message received">
-            <p>Ça va super, merci 🙌</p>
-            <span>10:34</span>
-          </div>
+        {/* Input */}
+        <div className="input-section">
+          <input
+            className="message-input"
+            placeholder="Type a message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          />
+          <button className="send-button" onClick={handleSend}>
+            Send
+          </button>
         </div>
-
-        <div className="chat-input">
-          <input type="text" placeholder="Écris ton message..." />
-          <button>Envoyer</button>
-        </div>
-      </main>
+      </div>
     </div>
-  )
+  );
 }
-
-export default Messaging

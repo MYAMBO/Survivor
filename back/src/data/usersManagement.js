@@ -87,4 +87,25 @@ async function GetUserDataById(id) {
     }
 }
 
-module.exports = {createUser, deleteUser, GetUserDataById, GetAllUsersData}
+async function getUserIdByName(name) {
+    const snapshot = await db.ref('users').once('value');
+    if (snapshot.exists()) {
+        const obj = snapshot.val()
+        const users = Object.entries(obj).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+        const myStr = JSON.stringify(users, null, 0)
+        const myObj = JSON.parse(myStr)
+        for (const user of myObj){
+            if (user.name === name){
+                return user.id;
+            }
+        }
+    } else {
+        console.log("Not found")
+    }
+    return '';
+}
+
+module.exports = {createUser, deleteUser, GetUserDataById, GetAllUsersData, getUserIdByName}
