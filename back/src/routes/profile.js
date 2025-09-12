@@ -3,15 +3,98 @@ const {authenticateToken} = require('../middleware/authMiddleware');
 const router = express.Router();
 const db = require("../db/firebaseSettings");
 const { GetUserDataById}  = require("../data/usersManagement");
+const bcrypt = require('bcrypt');
+const {getStartupsListByFounderId} = require("../data/startupsManagement");
 
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     summary: Get the authenticated user's profile
+ *     description: |
+ *       Returns the profile information of the currently authenticated user.
+ *       If the user is a founder, their associated startups will also be included.
+ *     tags:
+ *       - User
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the user's profile.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                   example: string
+ *                 role:
+ *                   type: string
+ *                   example: string
+ *                 image:
+ *                   type: string
+ *                   example: string
+ *                 metadata:
+ *                   type: object
+ *                   description: File metadata for the user's image.
+ *                   properties:
+ *                     accept-ranges:
+ *                       type: string
+ *                       example: "bytes"
+ *                     content-length:
+ *                       type: string
+ *                       example: "142449"
+ *                     content-type:
+ *                       type: string
+ *                       example: "image/png"
+ *                     date:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "Thu, 11 Sep 2025 11:19:16 GMT"
+ *                     etag:
+ *                       type: string
+ *                       example: "\"c75bc8d43943f103b004cc6b184c0c66\""
+ *                     last-modified:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "Tue, 02 Sep 2025 12:56:44 GMT"
+ *                 startups:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: string
+ *                       name:
+ *                         type: string
+ *                         example: string
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       404:
+ *         description: User not found.
+ */
 router.get('/profile', authenticateToken, async (req, res) => {
     const user = await GetUserDataById(req.user.id);
+    if (!user) {
+        return res.status(404).json({ message: "User not found." });
+    }
+    if (user.role === 'founder') {
+        const startups = await getStartupsListByFounderId(user.id);
+        user.startups = startups;
+    }
     res.json({
         "name": user.name,
         "email": user.email,
         "role": user.role,
         "image": user.image,
-        "metadata": user.metadata
+        "metadata": user.metadata,
+        "startups": user.startups
     })
 });
 

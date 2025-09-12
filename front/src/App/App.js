@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-import Opportunities from '../Startup Area/Opportunities/Opportunities'
 import Messaging from '../Messaging/Messaging'
 import Dashboard from '../Admin Area/Dashboard/Dashboard'
 import Profile from '../Startup Area/Profile/Profile'
@@ -11,6 +10,7 @@ import Header from '../Header/Header';
 import SignUp from '../Log/Signup';
 import Login from '../Log/Login';
 import Home from '../Home/Home';
+import News from '../News/News';
 import './App.css';
 
 function App() {  
@@ -64,6 +64,7 @@ function App() {
             <>
               <Route path='/catalog' element={<Catalogue/>}/>
               <Route path='/calendar' element={<MyCalendar/>}/>
+              <Route path='/news' element={<News/>}/>
             </>
           )}
           {(role === 'investor' || role === 'admin' || role === 'founder') && (
@@ -71,7 +72,6 @@ function App() {
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/profile' element={<Profile/>}/>
               <Route path='/messaging' element={<Messaging/>}/>
-              <Route path='/opportunities' element={<Opportunities/>}/>
             </>
           )}
         </Routes>

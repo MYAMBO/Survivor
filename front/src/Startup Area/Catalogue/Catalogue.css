@@ -340,7 +340,7 @@ h2 {
 }
 
 .modal-image {
-  width: 240px;
+  width: 100%;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);

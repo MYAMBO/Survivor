@@ -25,10 +25,10 @@ function Header() {
         <Link to="/" onClick={closeAllMenus}>Home</Link>
         <Link to="/calendar" onClick={closeAllMenus}>Calendar</Link>
         <Link to="/catalog" onClick={closeAllMenus}>Catalog</Link>
+        <Link to="/news" onClick={closeAllMenus}>News</Link>
         {(role === "investor" || role === "admin" || role === "founder") && (
           <>
           <Link to="/messaging" onClick={closeAllMenus}>Messaging</Link>
-          <Link to="/opportunities" onClick={closeAllMenus}>Opportunities</Link>
           </>
         )}
         {role === "admin" && (
