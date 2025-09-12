@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import Wheel from "./Wheel"; // ton composant roue
-import UserItem from "./UserItem/UserItem"; // ton composant roue
+import Wheel from "./Wheel";
+import UserItem from "./UserItem/UserItem";
 
 function useUsers() {
   const [users, setUsers] = useState([]);
@@ -33,11 +33,11 @@ function useUsers() {
       });
   }, []);
 
-  return [users, setUsers]; // expose both state and setter
+  return [users, setUsers];
 }
 
 function Dashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [startups, setStartups] = useState([]);
   const [users, setUsers] = useUsers();
 
@@ -101,13 +101,32 @@ function Dashboard() {
     }));
   
     return { stats, slices };
-  };
-  
+  };  
 
   const { slices: maturitySlices } = buildSlices("maturity");
   const { slices: sectorSlices } = buildSlices("sector");
   const { slices: countrySlices } = buildSlices("location");
 
+  const lauchhMigration = () => {
+    fetch("http://localhost:3000/admin/migrate", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json" },
+      credentials: 'include'
+    })
+    .then(res => {
+      if (res.status === 200) {
+        alert("Migration started successfully.");
+      } else {
+        alert("Failed to start migration.");
+      }
+    })
+    .catch(err => {
+      console.error("Erreur fetch:", err);
+      alert("Error starting migration.");
+    });
+  };
 
   return (
     <div className="dashboard">
@@ -127,6 +146,7 @@ function Dashboard() {
           <h3>By Country</h3>
           <Wheel slices={countrySlices} centerLabel={total} />
         </div>
+        <button className="button-migration" onClick={lauchhMigration}>Launch Migration</button>
       </div>
       <div className="user-wrapper">
         <ul className="user-list" style={{ listStyle: "none", padding: 0 }}>
